@@ -17,6 +17,7 @@ var _ = Describe("SnowflakeReporter", func() {
 		suiteSummary *types.SuiteSummary
 		ginkgoConfig config.GinkgoConfigType
 		specSummary  *types.SpecSummary
+		setupSummary *types.SetupSummary
 	)
 
 	BeforeEach(func() {
@@ -199,6 +200,30 @@ var _ = Describe("SnowflakeReporter", func() {
 
 				Expect(recordedSpecState).To(Equal("invalid"))
 			})
+		})
+	})
+
+	Describe("SpecSuiteDidEnd", func() {
+		It("is implemented but does nothing", func() {
+			r.SpecSuiteDidEnd(suiteSummary)
+		})
+	})
+
+	Describe("BeforeSuiteDidRun", func() {
+		It("is implemented but does nothing", func() {
+			r.BeforeSuiteDidRun(setupSummary)
+		})
+	})
+
+	Describe("SpecWillRun", func() {
+		It("is implemented but does nothing", func() {
+			r.SpecWillRun(specSummary)
+		})
+	})
+
+	Describe("AfterSuiteDidRun", func() {
+		It("is implemented but does nothing", func() {
+			r.AfterSuiteDidRun(setupSummary)
 		})
 	})
 })

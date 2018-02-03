@@ -40,6 +40,11 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 	r.Suite.Tests = append(r.Suite.Tests, test)
 }
 
+func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary)        {}
+func (r *SnowflakeReporter) BeforeSuiteDidRun(setupSummary *types.SetupSummary) {}
+func (r *SnowflakeReporter) AfterSuiteDidRun(setupSummary *types.SetupSummary)  {}
+func (r *SnowflakeReporter) SpecWillRun(specSummary *types.SpecSummary)         {}
+
 func failureMessage(failure types.SpecFailure) string {
 	return fmt.Sprintf("%s\n%s", failure.Message, failure.Location.String())
 }
