@@ -3,17 +3,17 @@ package snowflake
 import "time"
 
 type Suite struct {
-	Name  string
-	Tests []*Test
+	Name  string  `json:"name"`
+	Tests []*Test `json:"tests"`
 }
 
 type Test struct {
-	Name        string
-	CompletedAt time.Time
-	State       string
-	Failure     Failure
+	Name        string    `json:"name"`
+	CompletedAt time.Time `json:"completedAt"`
+	State       string    `json:"state"`
+	Failure     Failure   `json:"failure"`
 }
 
 type Failure struct {
-	Message string
+	Message string `json:"message"`
 }
