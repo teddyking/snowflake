@@ -1,19 +1,21 @@
-package snowflake_test
+package reporter_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/teddyking/snowflake"
+	. "github.com/teddyking/snowflake/reporter"
 
 	"time"
 
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/types"
+	"github.com/teddyking/snowflake/reporter/reporterfakes"
 )
 
 var _ = Describe("SnowflakeReporter", func() {
 	var (
 		r            *SnowflakeReporter
+		fakeClient   *reporterfakes.FakeClient
 		suiteSummary *types.SuiteSummary
 		ginkgoConfig config.GinkgoConfigType
 		specSummary  *types.SpecSummary
@@ -21,18 +23,21 @@ var _ = Describe("SnowflakeReporter", func() {
 	)
 
 	BeforeEach(func() {
-		r = NewReporter()
+		fakeClient = new(reporterfakes.FakeClient)
+		r = NewReporter(fakeClient)
+
+		ginkgoConfig = config.GinkgoConfigType{}
+		suiteSummary = &types.SuiteSummary{
+			SuiteDescription: "A Sweet Suite",
+		}
+	})
+
+	JustBeforeEach(func() {
+		r.SpecSuiteWillBegin(ginkgoConfig, suiteSummary)
+		r.SpecSuiteDidEnd(suiteSummary)
 	})
 
 	Describe("SpecSuiteWillBegin", func() {
-		BeforeEach(func() {
-			ginkgoConfig = config.GinkgoConfigType{}
-			suiteSummary = &types.SuiteSummary{
-				SuiteDescription: "A Sweet Suite",
-			}
-			r.SpecSuiteWillBegin(ginkgoConfig, suiteSummary)
-		})
-
 		It("records the suite name", func() {
 			Expect(r.Suite.Name).To(Equal("A Sweet Suite"))
 		})
@@ -204,8 +209,11 @@ var _ = Describe("SnowflakeReporter", func() {
 	})
 
 	Describe("SpecSuiteDidEnd", func() {
-		It("is implemented but does nothing", func() {
-			r.SpecSuiteDidEnd(suiteSummary)
+		It("POSTs the resulting Suite to the snowflake server", func() {
+			Expect(fakeClient.PostSuiteCallCount()).To(Equal(1))
+
+			postedSuite := fakeClient.PostSuiteArgsForCall(0)
+			Expect(postedSuite.Name).To(Equal("A Sweet Suite"))
 		})
 	})
 

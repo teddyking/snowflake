@@ -1,4 +1,4 @@
-package snowflake
+package reporter
 
 import (
 	"fmt"
@@ -7,14 +7,23 @@ import (
 
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/types"
+	"github.com/teddyking/snowflake"
 )
 
-type SnowflakeReporter struct {
-	Suite Suite
+//go:generate counterfeiter . Client
+type Client interface {
+	PostSuite(suite *snowflake.Suite) error
 }
 
-func NewReporter() *SnowflakeReporter {
-	return &SnowflakeReporter{}
+type SnowflakeReporter struct {
+	Suite  snowflake.Suite
+	client Client
+}
+
+func NewReporter(client Client) *SnowflakeReporter {
+	return &SnowflakeReporter{
+		client: client,
+	}
 }
 
 func (r *SnowflakeReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, summary *types.SuiteSummary) {
@@ -22,7 +31,7 @@ func (r *SnowflakeReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, s
 }
 
 func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
-	test := &Test{
+	test := &snowflake.Test{
 		Name:        strings.Join(specSummary.ComponentTexts[1:], " "),
 		CompletedAt: time.Now(),
 		State:       stateToString(specSummary.State),
@@ -32,7 +41,7 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 		specSummary.State == types.SpecStatePanicked ||
 		specSummary.State == types.SpecStateTimedOut {
 
-		test.Failure = Failure{
+		test.Failure = snowflake.Failure{
 			Message: failureMessage(specSummary.Failure),
 		}
 	}
@@ -40,7 +49,10 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 	r.Suite.Tests = append(r.Suite.Tests, test)
 }
 
-func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary)        {}
+func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
+	r.client.PostSuite(&r.Suite)
+}
+
 func (r *SnowflakeReporter) BeforeSuiteDidRun(setupSummary *types.SetupSummary) {}
 func (r *SnowflakeReporter) AfterSuiteDidRun(setupSummary *types.SetupSummary)  {}
 func (r *SnowflakeReporter) SpecWillRun(specSummary *types.SpecSummary)         {}
