@@ -20,9 +20,10 @@ type SnowflakeReporter struct {
 	client Client
 }
 
-func NewReporter(client Client) *SnowflakeReporter {
+func NewReporter(client Client, commit string) *SnowflakeReporter {
 	return &SnowflakeReporter{
 		client: client,
+		Suite:  snowflake.Suite{Commit: commit},
 	}
 }
 
@@ -50,7 +51,9 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 }
 
 func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
-	r.client.PostSuite(&r.Suite)
+	if r.Suite.Commit != "" {
+		r.client.PostSuite(&r.Suite)
+	}
 }
 
 func (r *SnowflakeReporter) BeforeSuiteDidRun(setupSummary *types.SetupSummary) {}

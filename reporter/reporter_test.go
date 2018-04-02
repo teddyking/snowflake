@@ -16,6 +16,7 @@ var _ = Describe("SnowflakeReporter", func() {
 	var (
 		r            *SnowflakeReporter
 		fakeClient   *reporterfakes.FakeClient
+		commit       string
 		suiteSummary *types.SuiteSummary
 		ginkgoConfig config.GinkgoConfigType
 		specSummary  *types.SpecSummary
@@ -24,7 +25,7 @@ var _ = Describe("SnowflakeReporter", func() {
 
 	BeforeEach(func() {
 		fakeClient = new(reporterfakes.FakeClient)
-		r = NewReporter(fakeClient)
+		commit = "aabb1122"
 
 		ginkgoConfig = config.GinkgoConfigType{}
 		suiteSummary = &types.SuiteSummary{
@@ -33,6 +34,8 @@ var _ = Describe("SnowflakeReporter", func() {
 	})
 
 	JustBeforeEach(func() {
+		r = NewReporter(fakeClient, commit)
+
 		r.SpecSuiteWillBegin(ginkgoConfig, suiteSummary)
 		r.SpecSuiteDidEnd(suiteSummary)
 	})
@@ -214,6 +217,17 @@ var _ = Describe("SnowflakeReporter", func() {
 
 			postedSuite := fakeClient.PostSuiteArgsForCall(0)
 			Expect(postedSuite.Name).To(Equal("A Sweet Suite"))
+			Expect(postedSuite.Commit).To(Equal("aabb1122"))
+		})
+
+		Context("when a commit has not been provided", func() {
+			BeforeEach(func() {
+				commit = ""
+			})
+
+			It("doesn't POST the resulting Suite to the snowflake server", func() {
+				Expect(fakeClient.PostSuiteCallCount()).To(Equal(0))
+			})
 		})
 	})
 

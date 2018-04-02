@@ -3,8 +3,9 @@ package snowflake
 import "time"
 
 type Suite struct {
-	Name  string  `json:"name"`
-	Tests []*Test `json:"tests"`
+	Name   string  `json:"name"`
+	Commit string  `json:"commit"`
+	Tests  []*Test `json:"tests"`
 }
 
 type Test struct {
