@@ -29,6 +29,7 @@ func NewReporter(client Client, commit string) *SnowflakeReporter {
 
 func (r *SnowflakeReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, summary *types.SuiteSummary) {
 	r.Suite.Name = summary.SuiteDescription
+	r.Suite.StartedAt = time.Now()
 }
 
 func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
@@ -51,6 +52,8 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 }
 
 func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
+	r.Suite.CompletedAt = time.Now()
+
 	if r.Suite.Commit != "" {
 		r.client.PostSuite(&r.Suite)
 	}
