@@ -15,6 +15,8 @@ func (i *inMemory) All() ([]snowflake.Suite, error) {
 }
 
 func (i *inMemory) Save(suite snowflake.Suite) error {
+	suite.ID = int64(len(i.suites))
+
 	i.suites = append(i.suites, suite)
 	return nil
 }

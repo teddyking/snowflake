@@ -24,8 +24,15 @@ var _ = Describe("InMemory", func() {
 	})
 
 	Describe("Save", func() {
+		var (
+			suite snowflake.Suite
+		)
+
+		BeforeEach(func() {
+			suite = snowflake.Suite{Name: "A Sweet Suite"}
+		})
+
 		It("saves the suite to the store", func() {
-			suite := snowflake.Suite{Name: "A Sweet Suite"}
 			Expect(store.Save(suite)).To(Succeed())
 
 			savedSuites, err := store.All()
@@ -33,6 +40,20 @@ var _ = Describe("InMemory", func() {
 
 			Expect(len(savedSuites)).To(Equal(1))
 			Expect(savedSuites[0].Name).To(Equal("A Sweet Suite"))
+		})
+
+		It("assigns an auto-incremented ID to new Suite", func() {
+			Expect(store.Save(suite)).To(Succeed())
+			Expect(store.Save(suite)).To(Succeed())
+			Expect(store.Save(suite)).To(Succeed())
+
+			savedSuites, err := store.All()
+			Expect(err).NotTo(HaveOccurred())
+
+			Expect(len(savedSuites)).To(Equal(3))
+			Expect(savedSuites[0].ID).To(Equal(int64(0)))
+			Expect(savedSuites[1].ID).To(Equal(int64(1)))
+			Expect(savedSuites[2].ID).To(Equal(int64(2)))
 		})
 	})
 })

@@ -3,6 +3,7 @@ package snowflake
 import "time"
 
 type Suite struct {
+	ID          int64     `json:"id"`
 	Name        string    `json:"name"`
 	Commit      string    `json:"commit"`
 	Tests       []*Test   `json:"tests"`
