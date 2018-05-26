@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package types;
+
+message Report {
+  string id = 1;
+  string name = 2;
+  string commit = 3;
+  repeated Suite suites = 4;
+  int64 started_at = 5;
+  int64 finished_at = 6;
+}
+
+message Suite {
+  string id = 1;
+  string name = 2;
+  repeated Test tests = 3;
+  int64 started_at = 4;
+  int64 finished_at = 5;
+}
+
+message Test {
+  string id = 1;
+  string name = 2;
+  enum State {
+    UNKNOWN = 0;
+    PASSED = 1;
+    FAILED = 2;
+    SKIPPED = 3;
+    PENDING = 4;
+    PANICKED = 5;
+    TIMEDOUT = 6;
+    INVALID = 7;
+  }
+  State state = 3;
+  Failure failure = 4;
+  int64 started_at = 5;
+  int64 finished_at = 6;
+}
+
+message Failure {
+  string id = 1;
+  string message = 2;
+}
