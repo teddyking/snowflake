@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package types;
+package api;
 
 message Report {
   string id = 1;
@@ -42,3 +42,13 @@ message Failure {
   string id = 1;
   string message = 2;
 }
+
+service Reporter {
+  rpc Create (CreateRequest) returns (CreateResponse) {}
+}
+
+message CreateRequest {
+  Report report = 1;
+}
+
+message CreateResponse {}
