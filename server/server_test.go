@@ -56,4 +56,43 @@ var _ = Describe("Server", func() {
 			})
 		})
 	})
+
+	Describe("List", func() {
+		var (
+			ctx context.Context
+			req *api.ListRequest
+			res *api.ListResponse
+		)
+
+		BeforeEach(func() {
+			var err error
+			ctx = context.Background()
+			req = &api.ListRequest{}
+
+			fakeStore.ListReturns([]*api.SuiteSummary{&api.SuiteSummary{Name: "cake"}}, nil)
+
+			res, err = snowflakeServer.List(ctx, req)
+			Expect(err).NotTo(HaveOccurred())
+		})
+
+		It("retrieves all summaries from the store", func() {
+			Expect(fakeStore.ListCallCount()).To(Equal(1))
+		})
+
+		It("returns the summaries", func() {
+			Expect(res.SuiteSummaries).To(HaveLen(1))
+			Expect(res.SuiteSummaries[0].Name).To(Equal("cake"))
+		})
+
+		When("the store returns an error", func() {
+			BeforeEach(func() {
+				fakeStore.ListReturns(nil, errors.New("error-listing-summaries"))
+			})
+
+			It("returns the error", func() {
+				_, err := snowflakeServer.List(ctx, req)
+				Expect(err).To(MatchError("error-listing-summaries"))
+			})
+		})
+	})
 })

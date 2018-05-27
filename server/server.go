@@ -9,6 +9,7 @@ import (
 //go:generate counterfeiter . Store
 type Store interface {
 	Create(suiteSummary *api.SuiteSummary) error
+	List() ([]*api.SuiteSummary, error)
 }
 
 type Server struct {
@@ -27,4 +28,13 @@ func (s *Server) Create(ctx context.Context, req *api.CreateRequest) (*api.Creat
 	}
 
 	return nil, nil
+}
+
+func (s *Server) List(ctx context.Context, req *api.ListRequest) (*api.ListResponse, error) {
+	summaries, err := s.store.List()
+	if err != nil {
+		return nil, err
+	}
+
+	return &api.ListResponse{SuiteSummaries: summaries}, nil
 }
