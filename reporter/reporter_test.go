@@ -9,11 +9,13 @@ import (
 	"github.com/onsi/ginkgo/types"
 	"github.com/teddyking/snowflake"
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/reporter/reporterfakes"
 )
 
 var _ = Describe("SnowflakeReporter", func() {
 	var (
 		r            *SnowflakeReporter
+		suiteClient  *reporterfakes.FakeSuiteClient
 		codebase     string
 		commit       string
 		suiteSummary *types.SuiteSummary
@@ -25,13 +27,14 @@ var _ = Describe("SnowflakeReporter", func() {
 	BeforeEach(func() {
 		codebase = "github.com/teddyking/snowflake/reporter"
 		commit = "aabb1122"
+		suiteClient = new(reporterfakes.FakeSuiteClient)
 
 		ginkgoConfig = config.GinkgoConfigType{}
 		suiteSummary = &types.SuiteSummary{
 			SuiteDescription: "A Sweet Suite",
 		}
 
-		r = snowflake.NewReporter(codebase, commit)
+		r = snowflake.NewReporter(codebase, commit, suiteClient)
 	})
 
 	Describe("SpecSuiteWillBegin", func() {
@@ -251,11 +254,18 @@ var _ = Describe("SnowflakeReporter", func() {
 
 	Describe("SpecSuiteDidEnd", func() {
 		BeforeEach(func() {
+			r.SpecSuiteWillBegin(ginkgoConfig, suiteSummary)
 			r.SpecSuiteDidEnd(suiteSummary)
 		})
 
 		It("records the time at which the suite finished", func() {
 			Expect(r.Summary.FinishedAt).To(BeNumerically(">", 0))
+		})
+
+		It("sends the summary to a snowflake server", func() {
+			Expect(suiteClient.CreateCallCount()).To(Equal(1))
+			_, sentCreateRequest, _ := suiteClient.CreateArgsForCall(0)
+			Expect(sentCreateRequest.Summary.Name).To(Equal("A Sweet Suite"))
 		})
 	})
 

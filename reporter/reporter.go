@@ -1,6 +1,7 @@
 package reporter
 
 import (
+	"context"
 	"fmt"
 	"strings"
 	"time"
@@ -8,10 +9,17 @@ import (
 	"github.com/onsi/ginkgo/config"
 	"github.com/onsi/ginkgo/types"
 	"github.com/teddyking/snowflake/api"
+	"google.golang.org/grpc"
 )
+
+//go:generate counterfeiter . SuiteClient
+type SuiteClient interface {
+	Create(ctx context.Context, in *api.CreateRequest, opts ...grpc.CallOption) (*api.CreateResponse, error)
+}
 
 type SnowflakeReporter struct {
 	Summary *api.SuiteSummary
+	Client  SuiteClient
 }
 
 func (r *SnowflakeReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, summary *types.SuiteSummary) {
@@ -47,6 +55,10 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 
 func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	r.Summary.FinishedAt = time.Now().Unix()
+
+	ctx := context.Background()
+	req := &api.CreateRequest{Summary: r.Summary}
+	r.Client.Create(ctx, req)
 }
 
 func (r *SnowflakeReporter) BeforeSuiteDidRun(setupSummary *types.SetupSummary) {}

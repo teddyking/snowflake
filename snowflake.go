@@ -5,11 +5,12 @@ import (
 	"github.com/teddyking/snowflake/reporter"
 )
 
-func NewReporter(codebase, commit string) *reporter.SnowflakeReporter {
+func NewReporter(codebase, commit string, client reporter.SuiteClient) *reporter.SnowflakeReporter {
 	return &reporter.SnowflakeReporter{
 		Summary: &api.SuiteSummary{
 			Codebase: codebase,
 			Commit:   commit,
 		},
+		Client: client,
 	}
 }

@@ -8,4 +8,4 @@ runserver:
 	PORT=2929 go run cmd/server/snowflake.go
 
 test:
-	ginkgo -r
+	ginkgo -r -skipPackage examplesuite

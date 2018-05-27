@@ -24,16 +24,16 @@ func New(store Store) *Server {
 
 func (s *Server) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
 	if err := s.store.Create(req.Summary); err != nil {
-		return nil, err
+		return &api.CreateResponse{}, err
 	}
 
-	return nil, nil
+	return &api.CreateResponse{}, nil
 }
 
 func (s *Server) List(ctx context.Context, req *api.ListRequest) (*api.ListResponse, error) {
 	summaries, err := s.store.List()
 	if err != nil {
-		return nil, err
+		return &api.ListResponse{}, err
 	}
 
 	return &api.ListResponse{SuiteSummaries: summaries}, nil
