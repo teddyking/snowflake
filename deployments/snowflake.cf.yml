@@ -1,0 +1,6 @@
+ applications:
+ - name: snowflake
+   docker:
+     image: teddyking/snowflake
+   routes:
+   - route: cf-tcpapps.io
