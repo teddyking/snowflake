@@ -1,0 +1,16 @@
+---
+
+jobs:
+- name: test
+  plan:
+  - get: snowflake
+    trigger: true
+  - task: unit
+    file: snowflake/build/ci/test.yml
+
+resources:
+- name: snowflake
+  type: git
+  source:
+    uri: https://github.com/teddyking/snowflake
+    branch: master

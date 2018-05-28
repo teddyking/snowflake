@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export GOPATH=$GOPATH:$(pwd)
+
+cd src/github.com/teddyking/snowflake
+make test
