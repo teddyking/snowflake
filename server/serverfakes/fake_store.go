@@ -31,6 +31,21 @@ type FakeStore struct {
 		result1 []*api.SuiteSummary
 		result2 error
 	}
+	GetStub        func(codebase, commit, location string) (*api.Test, error)
+	getMutex       sync.RWMutex
+	getArgsForCall []struct {
+		codebase string
+		commit   string
+		location string
+	}
+	getReturns struct {
+		result1 *api.Test
+		result2 error
+	}
+	getReturnsOnCall map[int]struct {
+		result1 *api.Test
+		result2 error
+	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
@@ -126,6 +141,59 @@ func (fake *FakeStore) ListReturnsOnCall(i int, result1 []*api.SuiteSummary, res
 	}{result1, result2}
 }
 
+func (fake *FakeStore) Get(codebase string, commit string, location string) (*api.Test, error) {
+	fake.getMutex.Lock()
+	ret, specificReturn := fake.getReturnsOnCall[len(fake.getArgsForCall)]
+	fake.getArgsForCall = append(fake.getArgsForCall, struct {
+		codebase string
+		commit   string
+		location string
+	}{codebase, commit, location})
+	fake.recordInvocation("Get", []interface{}{codebase, commit, location})
+	fake.getMutex.Unlock()
+	if fake.GetStub != nil {
+		return fake.GetStub(codebase, commit, location)
+	}
+	if specificReturn {
+		return ret.result1, ret.result2
+	}
+	return fake.getReturns.result1, fake.getReturns.result2
+}
+
+func (fake *FakeStore) GetCallCount() int {
+	fake.getMutex.RLock()
+	defer fake.getMutex.RUnlock()
+	return len(fake.getArgsForCall)
+}
+
+func (fake *FakeStore) GetArgsForCall(i int) (string, string, string) {
+	fake.getMutex.RLock()
+	defer fake.getMutex.RUnlock()
+	return fake.getArgsForCall[i].codebase, fake.getArgsForCall[i].commit, fake.getArgsForCall[i].location
+}
+
+func (fake *FakeStore) GetReturns(result1 *api.Test, result2 error) {
+	fake.GetStub = nil
+	fake.getReturns = struct {
+		result1 *api.Test
+		result2 error
+	}{result1, result2}
+}
+
+func (fake *FakeStore) GetReturnsOnCall(i int, result1 *api.Test, result2 error) {
+	fake.GetStub = nil
+	if fake.getReturnsOnCall == nil {
+		fake.getReturnsOnCall = make(map[int]struct {
+			result1 *api.Test
+			result2 error
+		})
+	}
+	fake.getReturnsOnCall[i] = struct {
+		result1 *api.Test
+		result2 error
+	}{result1, result2}
+}
+
 func (fake *FakeStore) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
@@ -133,6 +201,8 @@ func (fake *FakeStore) Invocations() map[string][][]interface{} {
 	defer fake.createMutex.RUnlock()
 	fake.listMutex.RLock()
 	defer fake.listMutex.RUnlock()
+	fake.getMutex.RLock()
+	defer fake.getMutex.RUnlock()
 	copiedInvocations := map[string][][]interface{}{}
 	for key, value := range fake.invocations {
 		copiedInvocations[key] = value

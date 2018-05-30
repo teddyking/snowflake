@@ -95,4 +95,51 @@ var _ = Describe("Server", func() {
 			})
 		})
 	})
+
+	Describe("Get", func() {
+		var (
+			ctx context.Context
+			req *api.GetRequest
+			res *api.GetResponse
+		)
+
+		BeforeEach(func() {
+			var err error
+			ctx = context.Background()
+			req = &api.GetRequest{
+				Codebase: "test-codebase",
+				Commit:   "test-commit",
+				Location: "test-location",
+			}
+
+			fakeStore.GetReturns(&api.Test{Name: "cake"}, nil)
+
+			res, err = snowflakeServer.Get(ctx, req)
+			Expect(err).NotTo(HaveOccurred())
+		})
+
+		It("gets the test from the store", func() {
+			Expect(fakeStore.GetCallCount()).To(Equal(1))
+
+			codebase, commit, location := fakeStore.GetArgsForCall(0)
+			Expect(codebase).To(Equal("test-codebase"))
+			Expect(commit).To(Equal("test-commit"))
+			Expect(location).To(Equal("test-location"))
+		})
+
+		It("returns the test", func() {
+			Expect(res.Test.Name).To(Equal("cake"))
+		})
+
+		When("the store returns an error", func() {
+			BeforeEach(func() {
+				fakeStore.GetReturns(nil, errors.New("error-geting-test"))
+			})
+
+			It("returns the error", func() {
+				_, err := snowflakeServer.Get(ctx, req)
+				Expect(err).To(MatchError("error-geting-test"))
+			})
+		})
+	})
 })

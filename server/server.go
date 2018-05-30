@@ -10,6 +10,7 @@ import (
 type Store interface {
 	Create(suiteSummary *api.SuiteSummary) error
 	List() ([]*api.SuiteSummary, error)
+	Get(codebase, commit, location string) (*api.Test, error)
 }
 
 type Server struct {
@@ -37,4 +38,13 @@ func (s *Server) List(ctx context.Context, req *api.ListRequest) (*api.ListRespo
 	}
 
 	return &api.ListResponse{SuiteSummaries: summaries}, nil
+}
+
+func (s *Server) Get(ctx context.Context, req *api.GetRequest) (*api.GetResponse, error) {
+	test, err := s.store.Get(req.Codebase, req.Commit, req.Location)
+	if err != nil {
+		return &api.GetResponse{}, err
+	}
+
+	return &api.GetResponse{Test: test}, nil
 }

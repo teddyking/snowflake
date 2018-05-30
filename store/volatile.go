@@ -29,3 +29,20 @@ func (v *VolatileStore) List() ([]*api.SuiteSummary, error) {
 
 	return v.summaries, nil
 }
+
+func (v *VolatileStore) Get(codebase, commit, location string) (*api.Test, error) {
+	v.mu.Lock()
+	defer v.mu.Unlock()
+
+	for _, summary := range v.summaries {
+		if summary.Codebase == codebase && summary.Commit == commit {
+			for _, test := range summary.Tests {
+				if test.Location == location {
+					return test, nil
+				}
+			}
+		}
+	}
+
+	return &api.Test{}, nil
+}

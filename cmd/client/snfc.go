@@ -35,6 +35,18 @@ func main() {
 		printSummary(summary)
 	}
 
+	getreq := &api.GetRequest{
+		Codebase: res.SuiteSummaries[0].Codebase,
+		Commit:   res.SuiteSummaries[0].Commit,
+		Location: res.SuiteSummaries[0].Tests[0].Location,
+	}
+
+	getres, err := client.Get(ctx, getreq)
+	if err != nil {
+		log.Fatalf("error listing summaries: %s", err.Error())
+	}
+
+	fmt.Println(getres.Test)
 }
 
 func printSummary(summary *api.SuiteSummary) {
