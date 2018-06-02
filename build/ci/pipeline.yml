@@ -1,12 +1,20 @@
 ---
 
 jobs:
-- name: test
+- name: unit
   plan:
   - get: snowflake
     trigger: true
   - task: unit
-    file: snowflake/build/ci/test.yml
+    file: snowflake/build/ci/unit.yml
+
+- name: integration
+  plan:
+  - get: snowflake
+    passed: [unit]
+    trigger: true
+  - task: unit
+    file: snowflake/build/ci/integration.yml
 
 resources:
 - name: snowflake
