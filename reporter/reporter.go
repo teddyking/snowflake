@@ -14,7 +14,7 @@ import (
 
 //go:generate counterfeiter . SuiteClient
 type SuiteClient interface {
-	Create(ctx context.Context, in *api.CreateRequest, opts ...grpc.CallOption) (*api.CreateResponse, error)
+	Create(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error)
 }
 
 type SnowflakeReporter struct {
@@ -57,7 +57,7 @@ func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
 	r.Summary.FinishedAt = time.Now().Unix()
 
 	ctx := context.Background()
-	req := &api.CreateRequest{Summary: r.Summary}
+	req := &api.SuiteCreateRequest{Summary: r.Summary}
 	r.Client.Create(ctx, req)
 }
 

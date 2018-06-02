@@ -5,26 +5,26 @@ import "types.proto";
 package api;
 
 service Suite {
-  rpc Create (CreateRequest) returns (CreateResponse) {}
-  rpc List (ListRequest) returns (ListResponse) {}
-  rpc Get (GetRequest) returns (GetResponse) {}
+  rpc Create (SuiteCreateRequest) returns (SuiteCreateResponse) {}
+  rpc List (SuiteListRequest) returns (SuiteListResponse) {}
+  rpc Get (SuiteGetRequest) returns (SuiteGetResponse) {}
 }
 
-message CreateRequest {
+message SuiteCreateRequest {
   SuiteSummary summary = 1;
 }
-message CreateResponse {}
+message SuiteCreateResponse {}
 
-message ListRequest {}
-message ListResponse {
+message SuiteListRequest {}
+message SuiteListResponse {
   repeated SuiteSummary SuiteSummaries = 1;
 }
 
-message GetRequest {
+message SuiteGetRequest {
   string codebase = 1;
   string commit = 2;
   string location = 3;
 }
-message GetResponse {
+message SuiteGetResponse {
   Test test = 1;
 }

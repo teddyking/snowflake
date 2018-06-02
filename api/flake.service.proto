@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "types.proto";
+
+package api;
+
+service Flake {
+  rpc List (FlakeListRequest) returns (FlakeListResponse) {}
+}
+
+
+message FlakeListRequest {}
+message FlakeListResponse {
+  repeated Test Tests = 1;
+}

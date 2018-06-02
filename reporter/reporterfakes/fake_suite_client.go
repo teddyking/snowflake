@@ -11,31 +11,31 @@ import (
 )
 
 type FakeSuiteClient struct {
-	CreateStub        func(ctx context.Context, in *api.CreateRequest, opts ...grpc.CallOption) (*api.CreateResponse, error)
+	CreateStub        func(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error)
 	createMutex       sync.RWMutex
 	createArgsForCall []struct {
 		ctx  context.Context
-		in   *api.CreateRequest
+		in   *api.SuiteCreateRequest
 		opts []grpc.CallOption
 	}
 	createReturns struct {
-		result1 *api.CreateResponse
+		result1 *api.SuiteCreateResponse
 		result2 error
 	}
 	createReturnsOnCall map[int]struct {
-		result1 *api.CreateResponse
+		result1 *api.SuiteCreateResponse
 		result2 error
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeSuiteClient) Create(ctx context.Context, in *api.CreateRequest, opts ...grpc.CallOption) (*api.CreateResponse, error) {
+func (fake *FakeSuiteClient) Create(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error) {
 	fake.createMutex.Lock()
 	ret, specificReturn := fake.createReturnsOnCall[len(fake.createArgsForCall)]
 	fake.createArgsForCall = append(fake.createArgsForCall, struct {
 		ctx  context.Context
-		in   *api.CreateRequest
+		in   *api.SuiteCreateRequest
 		opts []grpc.CallOption
 	}{ctx, in, opts})
 	fake.recordInvocation("Create", []interface{}{ctx, in, opts})
@@ -55,30 +55,30 @@ func (fake *FakeSuiteClient) CreateCallCount() int {
 	return len(fake.createArgsForCall)
 }
 
-func (fake *FakeSuiteClient) CreateArgsForCall(i int) (context.Context, *api.CreateRequest, []grpc.CallOption) {
+func (fake *FakeSuiteClient) CreateArgsForCall(i int) (context.Context, *api.SuiteCreateRequest, []grpc.CallOption) {
 	fake.createMutex.RLock()
 	defer fake.createMutex.RUnlock()
 	return fake.createArgsForCall[i].ctx, fake.createArgsForCall[i].in, fake.createArgsForCall[i].opts
 }
 
-func (fake *FakeSuiteClient) CreateReturns(result1 *api.CreateResponse, result2 error) {
+func (fake *FakeSuiteClient) CreateReturns(result1 *api.SuiteCreateResponse, result2 error) {
 	fake.CreateStub = nil
 	fake.createReturns = struct {
-		result1 *api.CreateResponse
+		result1 *api.SuiteCreateResponse
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeSuiteClient) CreateReturnsOnCall(i int, result1 *api.CreateResponse, result2 error) {
+func (fake *FakeSuiteClient) CreateReturnsOnCall(i int, result1 *api.SuiteCreateResponse, result2 error) {
 	fake.CreateStub = nil
 	if fake.createReturnsOnCall == nil {
 		fake.createReturnsOnCall = make(map[int]struct {
-			result1 *api.CreateResponse
+			result1 *api.SuiteCreateResponse
 			result2 error
 		})
 	}
 	fake.createReturnsOnCall[i] = struct {
-		result1 *api.CreateResponse
+		result1 *api.SuiteCreateResponse
 		result2 error
 	}{result1, result2}
 }

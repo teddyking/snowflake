@@ -27,12 +27,12 @@ var _ = Describe("SuiteService", func() {
 	Describe("Create", func() {
 		var (
 			ctx context.Context
-			req *api.CreateRequest
+			req *api.SuiteCreateRequest
 		)
 
 		BeforeEach(func() {
 			ctx = context.Background()
-			req = &api.CreateRequest{Summary: &api.SuiteSummary{Name: "cake"}}
+			req = &api.SuiteCreateRequest{Summary: &api.SuiteSummary{Name: "cake"}}
 
 			_, err := suiteService.Create(ctx, req)
 			Expect(err).NotTo(HaveOccurred())
@@ -60,14 +60,14 @@ var _ = Describe("SuiteService", func() {
 	Describe("List", func() {
 		var (
 			ctx context.Context
-			req *api.ListRequest
-			res *api.ListResponse
+			req *api.SuiteListRequest
+			res *api.SuiteListResponse
 		)
 
 		BeforeEach(func() {
 			var err error
 			ctx = context.Background()
-			req = &api.ListRequest{}
+			req = &api.SuiteListRequest{}
 
 			fakeStore.ListReturns([]*api.SuiteSummary{&api.SuiteSummary{Name: "cake"}}, nil)
 
@@ -99,14 +99,14 @@ var _ = Describe("SuiteService", func() {
 	Describe("Get", func() {
 		var (
 			ctx context.Context
-			req *api.GetRequest
-			res *api.GetResponse
+			req *api.SuiteGetRequest
+			res *api.SuiteGetResponse
 		)
 
 		BeforeEach(func() {
 			var err error
 			ctx = context.Background()
-			req = &api.GetRequest{
+			req = &api.SuiteGetRequest{
 				Codebase: "test-codebase",
 				Commit:   "test-commit",
 				Location: "test-location",

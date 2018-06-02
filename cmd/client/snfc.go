@@ -25,7 +25,7 @@ func main() {
 	client := api.NewSuiteClient(conn)
 
 	ctx := context.Background()
-	req := &api.ListRequest{}
+	req := &api.SuiteListRequest{}
 	res, err := client.List(ctx, req)
 	if err != nil {
 		log.Fatalf("error listing summaries: %s", err.Error())
@@ -35,7 +35,7 @@ func main() {
 		printSummary(summary)
 	}
 
-	getreq := &api.GetRequest{
+	getreq := &api.SuiteGetRequest{
 		Codebase: res.SuiteSummaries[0].Codebase,
 		Commit:   res.SuiteSummaries[0].Commit,
 		Location: res.SuiteSummaries[0].Tests[0].Location,

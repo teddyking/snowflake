@@ -23,143 +23,143 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
-type CreateRequest struct {
+type SuiteCreateRequest struct {
 	Summary              *SuiteSummary `protobuf:"bytes,1,opt,name=summary" json:"summary,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}      `json:"-"`
 	XXX_unrecognized     []byte        `json:"-"`
 	XXX_sizecache        int32         `json:"-"`
 }
 
-func (m *CreateRequest) Reset()         { *m = CreateRequest{} }
-func (m *CreateRequest) String() string { return proto.CompactTextString(m) }
-func (*CreateRequest) ProtoMessage()    {}
-func (*CreateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{0}
+func (m *SuiteCreateRequest) Reset()         { *m = SuiteCreateRequest{} }
+func (m *SuiteCreateRequest) String() string { return proto.CompactTextString(m) }
+func (*SuiteCreateRequest) ProtoMessage()    {}
+func (*SuiteCreateRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{0}
 }
-func (m *CreateRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateRequest.Unmarshal(m, b)
+func (m *SuiteCreateRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteCreateRequest.Unmarshal(m, b)
 }
-func (m *CreateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateRequest.Marshal(b, m, deterministic)
+func (m *SuiteCreateRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteCreateRequest.Marshal(b, m, deterministic)
 }
-func (dst *CreateRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateRequest.Merge(dst, src)
+func (dst *SuiteCreateRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteCreateRequest.Merge(dst, src)
 }
-func (m *CreateRequest) XXX_Size() int {
-	return xxx_messageInfo_CreateRequest.Size(m)
+func (m *SuiteCreateRequest) XXX_Size() int {
+	return xxx_messageInfo_SuiteCreateRequest.Size(m)
 }
-func (m *CreateRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateRequest.DiscardUnknown(m)
+func (m *SuiteCreateRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteCreateRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateRequest proto.InternalMessageInfo
+var xxx_messageInfo_SuiteCreateRequest proto.InternalMessageInfo
 
-func (m *CreateRequest) GetSummary() *SuiteSummary {
+func (m *SuiteCreateRequest) GetSummary() *SuiteSummary {
 	if m != nil {
 		return m.Summary
 	}
 	return nil
 }
 
-type CreateResponse struct {
+type SuiteCreateResponse struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CreateResponse) Reset()         { *m = CreateResponse{} }
-func (m *CreateResponse) String() string { return proto.CompactTextString(m) }
-func (*CreateResponse) ProtoMessage()    {}
-func (*CreateResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{1}
+func (m *SuiteCreateResponse) Reset()         { *m = SuiteCreateResponse{} }
+func (m *SuiteCreateResponse) String() string { return proto.CompactTextString(m) }
+func (*SuiteCreateResponse) ProtoMessage()    {}
+func (*SuiteCreateResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{1}
 }
-func (m *CreateResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CreateResponse.Unmarshal(m, b)
+func (m *SuiteCreateResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteCreateResponse.Unmarshal(m, b)
 }
-func (m *CreateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CreateResponse.Marshal(b, m, deterministic)
+func (m *SuiteCreateResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteCreateResponse.Marshal(b, m, deterministic)
 }
-func (dst *CreateResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CreateResponse.Merge(dst, src)
+func (dst *SuiteCreateResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteCreateResponse.Merge(dst, src)
 }
-func (m *CreateResponse) XXX_Size() int {
-	return xxx_messageInfo_CreateResponse.Size(m)
+func (m *SuiteCreateResponse) XXX_Size() int {
+	return xxx_messageInfo_SuiteCreateResponse.Size(m)
 }
-func (m *CreateResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_CreateResponse.DiscardUnknown(m)
+func (m *SuiteCreateResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteCreateResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CreateResponse proto.InternalMessageInfo
+var xxx_messageInfo_SuiteCreateResponse proto.InternalMessageInfo
 
-type ListRequest struct {
+type SuiteListRequest struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ListRequest) Reset()         { *m = ListRequest{} }
-func (m *ListRequest) String() string { return proto.CompactTextString(m) }
-func (*ListRequest) ProtoMessage()    {}
-func (*ListRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{2}
+func (m *SuiteListRequest) Reset()         { *m = SuiteListRequest{} }
+func (m *SuiteListRequest) String() string { return proto.CompactTextString(m) }
+func (*SuiteListRequest) ProtoMessage()    {}
+func (*SuiteListRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{2}
 }
-func (m *ListRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListRequest.Unmarshal(m, b)
+func (m *SuiteListRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteListRequest.Unmarshal(m, b)
 }
-func (m *ListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListRequest.Marshal(b, m, deterministic)
+func (m *SuiteListRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteListRequest.Marshal(b, m, deterministic)
 }
-func (dst *ListRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListRequest.Merge(dst, src)
+func (dst *SuiteListRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteListRequest.Merge(dst, src)
 }
-func (m *ListRequest) XXX_Size() int {
-	return xxx_messageInfo_ListRequest.Size(m)
+func (m *SuiteListRequest) XXX_Size() int {
+	return xxx_messageInfo_SuiteListRequest.Size(m)
 }
-func (m *ListRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListRequest.DiscardUnknown(m)
+func (m *SuiteListRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteListRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListRequest proto.InternalMessageInfo
+var xxx_messageInfo_SuiteListRequest proto.InternalMessageInfo
 
-type ListResponse struct {
+type SuiteListResponse struct {
 	SuiteSummaries       []*SuiteSummary `protobuf:"bytes,1,rep,name=SuiteSummaries" json:"SuiteSummaries,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}        `json:"-"`
 	XXX_unrecognized     []byte          `json:"-"`
 	XXX_sizecache        int32           `json:"-"`
 }
 
-func (m *ListResponse) Reset()         { *m = ListResponse{} }
-func (m *ListResponse) String() string { return proto.CompactTextString(m) }
-func (*ListResponse) ProtoMessage()    {}
-func (*ListResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{3}
+func (m *SuiteListResponse) Reset()         { *m = SuiteListResponse{} }
+func (m *SuiteListResponse) String() string { return proto.CompactTextString(m) }
+func (*SuiteListResponse) ProtoMessage()    {}
+func (*SuiteListResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{3}
 }
-func (m *ListResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ListResponse.Unmarshal(m, b)
+func (m *SuiteListResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteListResponse.Unmarshal(m, b)
 }
-func (m *ListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ListResponse.Marshal(b, m, deterministic)
+func (m *SuiteListResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteListResponse.Marshal(b, m, deterministic)
 }
-func (dst *ListResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ListResponse.Merge(dst, src)
+func (dst *SuiteListResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteListResponse.Merge(dst, src)
 }
-func (m *ListResponse) XXX_Size() int {
-	return xxx_messageInfo_ListResponse.Size(m)
+func (m *SuiteListResponse) XXX_Size() int {
+	return xxx_messageInfo_SuiteListResponse.Size(m)
 }
-func (m *ListResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_ListResponse.DiscardUnknown(m)
+func (m *SuiteListResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteListResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ListResponse proto.InternalMessageInfo
+var xxx_messageInfo_SuiteListResponse proto.InternalMessageInfo
 
-func (m *ListResponse) GetSuiteSummaries() []*SuiteSummary {
+func (m *SuiteListResponse) GetSuiteSummaries() []*SuiteSummary {
 	if m != nil {
 		return m.SuiteSummaries
 	}
 	return nil
 }
 
-type GetRequest struct {
+type SuiteGetRequest struct {
 	Codebase             string   `protobuf:"bytes,1,opt,name=codebase" json:"codebase,omitempty"`
 	Commit               string   `protobuf:"bytes,2,opt,name=commit" json:"commit,omitempty"`
 	Location             string   `protobuf:"bytes,3,opt,name=location" json:"location,omitempty"`
@@ -168,83 +168,83 @@ type GetRequest struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetRequest) Reset()         { *m = GetRequest{} }
-func (m *GetRequest) String() string { return proto.CompactTextString(m) }
-func (*GetRequest) ProtoMessage()    {}
-func (*GetRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{4}
+func (m *SuiteGetRequest) Reset()         { *m = SuiteGetRequest{} }
+func (m *SuiteGetRequest) String() string { return proto.CompactTextString(m) }
+func (*SuiteGetRequest) ProtoMessage()    {}
+func (*SuiteGetRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{4}
 }
-func (m *GetRequest) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetRequest.Unmarshal(m, b)
+func (m *SuiteGetRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteGetRequest.Unmarshal(m, b)
 }
-func (m *GetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetRequest.Marshal(b, m, deterministic)
+func (m *SuiteGetRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteGetRequest.Marshal(b, m, deterministic)
 }
-func (dst *GetRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetRequest.Merge(dst, src)
+func (dst *SuiteGetRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteGetRequest.Merge(dst, src)
 }
-func (m *GetRequest) XXX_Size() int {
-	return xxx_messageInfo_GetRequest.Size(m)
+func (m *SuiteGetRequest) XXX_Size() int {
+	return xxx_messageInfo_SuiteGetRequest.Size(m)
 }
-func (m *GetRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetRequest.DiscardUnknown(m)
+func (m *SuiteGetRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteGetRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetRequest proto.InternalMessageInfo
+var xxx_messageInfo_SuiteGetRequest proto.InternalMessageInfo
 
-func (m *GetRequest) GetCodebase() string {
+func (m *SuiteGetRequest) GetCodebase() string {
 	if m != nil {
 		return m.Codebase
 	}
 	return ""
 }
 
-func (m *GetRequest) GetCommit() string {
+func (m *SuiteGetRequest) GetCommit() string {
 	if m != nil {
 		return m.Commit
 	}
 	return ""
 }
 
-func (m *GetRequest) GetLocation() string {
+func (m *SuiteGetRequest) GetLocation() string {
 	if m != nil {
 		return m.Location
 	}
 	return ""
 }
 
-type GetResponse struct {
+type SuiteGetResponse struct {
 	Test                 *Test    `protobuf:"bytes,1,opt,name=test" json:"test,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *GetResponse) Reset()         { *m = GetResponse{} }
-func (m *GetResponse) String() string { return proto.CompactTextString(m) }
-func (*GetResponse) ProtoMessage()    {}
-func (*GetResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_suite_service_cca4019be87c0798, []int{5}
+func (m *SuiteGetResponse) Reset()         { *m = SuiteGetResponse{} }
+func (m *SuiteGetResponse) String() string { return proto.CompactTextString(m) }
+func (*SuiteGetResponse) ProtoMessage()    {}
+func (*SuiteGetResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_suite_service_84a29f7ea8949395, []int{5}
 }
-func (m *GetResponse) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_GetResponse.Unmarshal(m, b)
+func (m *SuiteGetResponse) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SuiteGetResponse.Unmarshal(m, b)
 }
-func (m *GetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_GetResponse.Marshal(b, m, deterministic)
+func (m *SuiteGetResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SuiteGetResponse.Marshal(b, m, deterministic)
 }
-func (dst *GetResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetResponse.Merge(dst, src)
+func (dst *SuiteGetResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SuiteGetResponse.Merge(dst, src)
 }
-func (m *GetResponse) XXX_Size() int {
-	return xxx_messageInfo_GetResponse.Size(m)
+func (m *SuiteGetResponse) XXX_Size() int {
+	return xxx_messageInfo_SuiteGetResponse.Size(m)
 }
-func (m *GetResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetResponse.DiscardUnknown(m)
+func (m *SuiteGetResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_SuiteGetResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetResponse proto.InternalMessageInfo
+var xxx_messageInfo_SuiteGetResponse proto.InternalMessageInfo
 
-func (m *GetResponse) GetTest() *Test {
+func (m *SuiteGetResponse) GetTest() *Test {
 	if m != nil {
 		return m.Test
 	}
@@ -252,12 +252,12 @@ func (m *GetResponse) GetTest() *Test {
 }
 
 func init() {
-	proto.RegisterType((*CreateRequest)(nil), "api.CreateRequest")
-	proto.RegisterType((*CreateResponse)(nil), "api.CreateResponse")
-	proto.RegisterType((*ListRequest)(nil), "api.ListRequest")
-	proto.RegisterType((*ListResponse)(nil), "api.ListResponse")
-	proto.RegisterType((*GetRequest)(nil), "api.GetRequest")
-	proto.RegisterType((*GetResponse)(nil), "api.GetResponse")
+	proto.RegisterType((*SuiteCreateRequest)(nil), "api.SuiteCreateRequest")
+	proto.RegisterType((*SuiteCreateResponse)(nil), "api.SuiteCreateResponse")
+	proto.RegisterType((*SuiteListRequest)(nil), "api.SuiteListRequest")
+	proto.RegisterType((*SuiteListResponse)(nil), "api.SuiteListResponse")
+	proto.RegisterType((*SuiteGetRequest)(nil), "api.SuiteGetRequest")
+	proto.RegisterType((*SuiteGetResponse)(nil), "api.SuiteGetResponse")
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -271,9 +271,9 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for Suite service
 
 type SuiteClient interface {
-	Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error)
-	List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error)
-	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
+	Create(ctx context.Context, in *SuiteCreateRequest, opts ...grpc.CallOption) (*SuiteCreateResponse, error)
+	List(ctx context.Context, in *SuiteListRequest, opts ...grpc.CallOption) (*SuiteListResponse, error)
+	Get(ctx context.Context, in *SuiteGetRequest, opts ...grpc.CallOption) (*SuiteGetResponse, error)
 }
 
 type suiteClient struct {
@@ -284,8 +284,8 @@ func NewSuiteClient(cc *grpc.ClientConn) SuiteClient {
 	return &suiteClient{cc}
 }
 
-func (c *suiteClient) Create(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*CreateResponse, error) {
-	out := new(CreateResponse)
+func (c *suiteClient) Create(ctx context.Context, in *SuiteCreateRequest, opts ...grpc.CallOption) (*SuiteCreateResponse, error) {
+	out := new(SuiteCreateResponse)
 	err := grpc.Invoke(ctx, "/api.Suite/Create", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
@@ -293,8 +293,8 @@ func (c *suiteClient) Create(ctx context.Context, in *CreateRequest, opts ...grp
 	return out, nil
 }
 
-func (c *suiteClient) List(ctx context.Context, in *ListRequest, opts ...grpc.CallOption) (*ListResponse, error) {
-	out := new(ListResponse)
+func (c *suiteClient) List(ctx context.Context, in *SuiteListRequest, opts ...grpc.CallOption) (*SuiteListResponse, error) {
+	out := new(SuiteListResponse)
 	err := grpc.Invoke(ctx, "/api.Suite/List", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
@@ -302,8 +302,8 @@ func (c *suiteClient) List(ctx context.Context, in *ListRequest, opts ...grpc.Ca
 	return out, nil
 }
 
-func (c *suiteClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
-	out := new(GetResponse)
+func (c *suiteClient) Get(ctx context.Context, in *SuiteGetRequest, opts ...grpc.CallOption) (*SuiteGetResponse, error) {
+	out := new(SuiteGetResponse)
 	err := grpc.Invoke(ctx, "/api.Suite/Get", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
@@ -314,9 +314,9 @@ func (c *suiteClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Call
 // Server API for Suite service
 
 type SuiteServer interface {
-	Create(context.Context, *CreateRequest) (*CreateResponse, error)
-	List(context.Context, *ListRequest) (*ListResponse, error)
-	Get(context.Context, *GetRequest) (*GetResponse, error)
+	Create(context.Context, *SuiteCreateRequest) (*SuiteCreateResponse, error)
+	List(context.Context, *SuiteListRequest) (*SuiteListResponse, error)
+	Get(context.Context, *SuiteGetRequest) (*SuiteGetResponse, error)
 }
 
 func RegisterSuiteServer(s *grpc.Server, srv SuiteServer) {
@@ -324,7 +324,7 @@ func RegisterSuiteServer(s *grpc.Server, srv SuiteServer) {
 }
 
 func _Suite_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(CreateRequest)
+	in := new(SuiteCreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -336,13 +336,13 @@ func _Suite_Create_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/api.Suite/Create",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuiteServer).Create(ctx, req.(*CreateRequest))
+		return srv.(SuiteServer).Create(ctx, req.(*SuiteCreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Suite_List_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListRequest)
+	in := new(SuiteListRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -354,13 +354,13 @@ func _Suite_List_Handler(srv interface{}, ctx context.Context, dec func(interfac
 		FullMethod: "/api.Suite/List",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuiteServer).List(ctx, req.(*ListRequest))
+		return srv.(SuiteServer).List(ctx, req.(*SuiteListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _Suite_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRequest)
+	in := new(SuiteGetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -372,7 +372,7 @@ func _Suite_Get_Handler(srv interface{}, ctx context.Context, dec func(interface
 		FullMethod: "/api.Suite/Get",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SuiteServer).Get(ctx, req.(*GetRequest))
+		return srv.(SuiteServer).Get(ctx, req.(*SuiteGetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -398,27 +398,27 @@ var _Suite_serviceDesc = grpc.ServiceDesc{
 	Metadata: "suite.service.proto",
 }
 
-func init() { proto.RegisterFile("suite.service.proto", fileDescriptor_suite_service_cca4019be87c0798) }
+func init() { proto.RegisterFile("suite.service.proto", fileDescriptor_suite_service_84a29f7ea8949395) }
 
-var fileDescriptor_suite_service_cca4019be87c0798 = []byte{
-	// 292 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x51, 0x4d, 0x4b, 0xc3, 0x40,
-	0x10, 0x35, 0xa6, 0x46, 0x3b, 0xb1, 0x35, 0xdd, 0x82, 0x84, 0x80, 0x50, 0xf6, 0x24, 0x7e, 0xe4,
-	0xd0, 0x9e, 0x04, 0x6f, 0x1e, 0x8a, 0xe0, 0x29, 0xf5, 0xe8, 0x65, 0x1b, 0xe7, 0xb0, 0x60, 0xba,
-	0x31, 0x33, 0x11, 0xfa, 0x4b, 0xfc, 0xbb, 0x92, 0xdd, 0xa4, 0x4d, 0xa5, 0xc7, 0xf7, 0x31, 0x6f,
-	0x1f, 0x6f, 0x61, 0x4a, 0xb5, 0x66, 0x4c, 0x09, 0xab, 0x1f, 0x9d, 0x63, 0x5a, 0x56, 0x86, 0x8d,
-	0xf0, 0x55, 0xa9, 0x93, 0x90, 0xb7, 0x25, 0x92, 0x63, 0xe4, 0x33, 0x8c, 0x5e, 0x2a, 0x54, 0x8c,
-	0x19, 0x7e, 0xd7, 0x48, 0x2c, 0xee, 0xe1, 0x9c, 0xea, 0xa2, 0x50, 0xd5, 0x36, 0xf6, 0x66, 0xde,
-	0x6d, 0x38, 0x9f, 0xa4, 0xaa, 0xd4, 0xe9, 0xaa, 0x49, 0x5b, 0x39, 0x21, 0xeb, 0x1c, 0x32, 0x82,
-	0x71, 0x77, 0x4d, 0xa5, 0xd9, 0x10, 0xca, 0x11, 0x84, 0x6f, 0x9a, 0xb8, 0x4d, 0x93, 0xaf, 0x70,
-	0xe9, 0xa0, 0x93, 0xc5, 0x13, 0x8c, 0x7b, 0x49, 0x1a, 0x29, 0xf6, 0x66, 0xfe, 0xf1, 0x47, 0xfe,
-	0x19, 0xe5, 0x07, 0xc0, 0x12, 0xbb, 0x60, 0x91, 0xc0, 0x45, 0x6e, 0x3e, 0x71, 0xad, 0x08, 0x6d,
-	0xcf, 0x61, 0xb6, 0xc3, 0xe2, 0x1a, 0x82, 0xdc, 0x14, 0x85, 0xe6, 0xf8, 0xd4, 0x2a, 0x2d, 0x6a,
-	0x6e, 0xbe, 0x4c, 0xae, 0x58, 0x9b, 0x4d, 0xec, 0xbb, 0x9b, 0x0e, 0xcb, 0x07, 0x08, 0x6d, 0x7a,
-	0xdb, 0xf3, 0x06, 0x06, 0x8c, 0xc4, 0xed, 0x04, 0x43, 0xdb, 0xee, 0x1d, 0x89, 0x33, 0x4b, 0xcf,
-	0x7f, 0x3d, 0x38, 0xb3, 0xf5, 0xc4, 0x02, 0x02, 0xb7, 0x80, 0x10, 0xd6, 0x74, 0x30, 0x66, 0x32,
-	0x3d, 0xe0, 0xda, 0x89, 0x4e, 0xc4, 0x23, 0x0c, 0x9a, 0x55, 0x44, 0x64, 0xe5, 0xde, 0x5e, 0xc9,
-	0xa4, 0xc7, 0xec, 0xec, 0x77, 0xe0, 0x2f, 0x91, 0xc5, 0x95, 0xd5, 0xf6, 0x1b, 0x24, 0xd1, 0x9e,
-	0xe8, 0xbc, 0xeb, 0xc0, 0x7e, 0xeb, 0xe2, 0x2f, 0x00, 0x00, 0xff, 0xff, 0xc4, 0x94, 0xfe, 0x67,
-	0xff, 0x01, 0x00, 0x00,
+var fileDescriptor_suite_service_84a29f7ea8949395 = []byte{
+	// 303 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x6c, 0x92, 0xc1, 0x4a, 0xc3, 0x40,
+	0x10, 0x86, 0x8d, 0xa9, 0xd5, 0x4e, 0x41, 0xed, 0xd4, 0xd6, 0x10, 0x10, 0xca, 0x9e, 0x04, 0x21,
+	0x60, 0x15, 0xc4, 0x83, 0x07, 0xf1, 0xd0, 0x8b, 0x78, 0x48, 0x7d, 0x81, 0x6d, 0x9c, 0xc3, 0x82,
+	0xe9, 0xc6, 0xcc, 0x54, 0xe8, 0x83, 0xf9, 0x7e, 0xd2, 0xcd, 0xa6, 0x69, 0xa3, 0xc7, 0xf9, 0xe7,
+	0xff, 0x67, 0x66, 0x3f, 0x16, 0x86, 0xbc, 0x32, 0x42, 0x09, 0x53, 0xf9, 0x6d, 0x32, 0x4a, 0x8a,
+	0xd2, 0x8a, 0xc5, 0x50, 0x17, 0x26, 0xee, 0xcb, 0xba, 0x20, 0xae, 0x14, 0xf5, 0x0c, 0x38, 0xdf,
+	0x18, 0x5f, 0x4a, 0xd2, 0x42, 0x29, 0x7d, 0xad, 0x88, 0x05, 0x6f, 0xe0, 0x98, 0x57, 0x79, 0xae,
+	0xcb, 0x75, 0x14, 0x4c, 0x82, 0xeb, 0xfe, 0x74, 0x90, 0xe8, 0xc2, 0x24, 0xce, 0x39, 0xaf, 0x1a,
+	0x69, 0xed, 0x50, 0x23, 0x18, 0xee, 0x8d, 0xe0, 0xc2, 0x2e, 0x99, 0x14, 0xc2, 0xb9, 0x93, 0x5f,
+	0x0d, 0x8b, 0x9f, 0xab, 0xde, 0x60, 0xb0, 0xa3, 0x55, 0x46, 0x7c, 0x84, 0xd3, 0x9d, 0xc1, 0x86,
+	0x38, 0x0a, 0x26, 0xe1, 0xff, 0x3b, 0x5b, 0x46, 0xa5, 0xe1, 0xcc, 0x29, 0x33, 0xaa, 0x57, 0x60,
+	0x0c, 0x27, 0x99, 0xfd, 0xa0, 0x85, 0x66, 0x72, 0xb7, 0xf7, 0xd2, 0x6d, 0x8d, 0x63, 0xe8, 0x66,
+	0x36, 0xcf, 0x8d, 0x44, 0x87, 0xae, 0xe3, 0xab, 0x4d, 0xe6, 0xd3, 0x66, 0x5a, 0x8c, 0x5d, 0x46,
+	0x61, 0x95, 0xa9, 0x6b, 0x75, 0xeb, 0x9f, 0xe1, 0x56, 0xf8, 0x8b, 0xaf, 0xa0, 0x23, 0xc4, 0xe2,
+	0xd9, 0xf4, 0xdc, 0x9d, 0xef, 0xc4, 0x92, 0x3a, 0x79, 0xfa, 0x13, 0xc0, 0x91, 0xcb, 0xe0, 0x13,
+	0x74, 0x2b, 0x2a, 0x78, 0xd9, 0x3c, 0x66, 0x0f, 0x75, 0x1c, 0xfd, 0x6d, 0x78, 0x80, 0x07, 0xf8,
+	0x00, 0x9d, 0x0d, 0x29, 0x1c, 0x35, 0x9e, 0x1d, 0x9a, 0xf1, 0xb8, 0x2d, 0x6f, 0x83, 0xf7, 0x10,
+	0xce, 0x48, 0xf0, 0xa2, 0x31, 0x34, 0x84, 0xe2, 0x51, 0x4b, 0xad, 0x53, 0x8b, 0xae, 0xfb, 0x12,
+	0x77, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0xde, 0xcb, 0x9c, 0x46, 0x3b, 0x02, 0x00, 0x00,
 }
