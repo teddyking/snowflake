@@ -13,7 +13,7 @@ jobs:
   - get: snowflake
     passed: [unit]
     trigger: true
-  - task: unit
+  - task: integration
     file: snowflake/build/ci/integration.yml
 
 resources:
