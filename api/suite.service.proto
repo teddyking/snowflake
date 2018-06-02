@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "types.proto";
+
+package api;
+
+service Suite {
+  rpc Create (CreateRequest) returns (CreateResponse) {}
+  rpc List (ListRequest) returns (ListResponse) {}
+  rpc Get (GetRequest) returns (GetResponse) {}
+}
+
+message CreateRequest {
+  SuiteSummary summary = 1;
+}
+message CreateResponse {}
+
+message ListRequest {}
+message ListResponse {
+  repeated SuiteSummary SuiteSummaries = 1;
+}
+
+message GetRequest {
+  string codebase = 1;
+  string commit = 2;
+  string location = 3;
+}
+message GetResponse {
+  Test test = 1;
+}
