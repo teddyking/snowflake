@@ -1,4 +1,4 @@
-package server
+package suite
 
 import (
 	"context"
@@ -13,17 +13,17 @@ type Store interface {
 	Get(codebase, commit, location string) (*api.Test, error)
 }
 
-type Server struct {
+type SuiteService struct {
 	store Store
 }
 
-func New(store Store) *Server {
-	return &Server{
+func New(store Store) *SuiteService {
+	return &SuiteService{
 		store: store,
 	}
 }
 
-func (s *Server) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
+func (s *SuiteService) Create(ctx context.Context, req *api.CreateRequest) (*api.CreateResponse, error) {
 	if err := s.store.Create(req.Summary); err != nil {
 		return &api.CreateResponse{}, err
 	}
@@ -31,7 +31,7 @@ func (s *Server) Create(ctx context.Context, req *api.CreateRequest) (*api.Creat
 	return &api.CreateResponse{}, nil
 }
 
-func (s *Server) List(ctx context.Context, req *api.ListRequest) (*api.ListResponse, error) {
+func (s *SuiteService) List(ctx context.Context, req *api.ListRequest) (*api.ListResponse, error) {
 	summaries, err := s.store.List()
 	if err != nil {
 		return &api.ListResponse{}, err
@@ -40,7 +40,7 @@ func (s *Server) List(ctx context.Context, req *api.ListRequest) (*api.ListRespo
 	return &api.ListResponse{SuiteSummaries: summaries}, nil
 }
 
-func (s *Server) Get(ctx context.Context, req *api.GetRequest) (*api.GetResponse, error) {
+func (s *SuiteService) Get(ctx context.Context, req *api.GetRequest) (*api.GetResponse, error) {
 	test, err := s.store.Get(req.Codebase, req.Commit, req.Location)
 	if err != nil {
 		return &api.GetResponse{}, err

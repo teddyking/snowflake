@@ -1,27 +1,27 @@
-package server_test
+package suite_test
 
 import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	. "github.com/teddyking/snowflake/server"
+	. "github.com/teddyking/snowflake/services/suite"
 
 	"context"
 	"errors"
 
 	"github.com/teddyking/snowflake/api"
-	"github.com/teddyking/snowflake/server/serverfakes"
+	"github.com/teddyking/snowflake/services/suite/suitefakes"
 )
 
-var _ = Describe("Server", func() {
+var _ = Describe("SuiteService", func() {
 	var (
-		fakeStore       *serverfakes.FakeStore
-		snowflakeServer *Server
+		fakeStore    *suitefakes.FakeStore
+		suiteService *SuiteService
 	)
 
 	BeforeEach(func() {
-		fakeStore = new(serverfakes.FakeStore)
+		fakeStore = new(suitefakes.FakeStore)
 
-		snowflakeServer = New(fakeStore)
+		suiteService = New(fakeStore)
 	})
 
 	Describe("Create", func() {
@@ -34,7 +34,7 @@ var _ = Describe("Server", func() {
 			ctx = context.Background()
 			req = &api.CreateRequest{Summary: &api.SuiteSummary{Name: "cake"}}
 
-			_, err := snowflakeServer.Create(ctx, req)
+			_, err := suiteService.Create(ctx, req)
 			Expect(err).NotTo(HaveOccurred())
 		})
 
@@ -51,7 +51,7 @@ var _ = Describe("Server", func() {
 			})
 
 			It("returns the error", func() {
-				_, err := snowflakeServer.Create(ctx, req)
+				_, err := suiteService.Create(ctx, req)
 				Expect(err).To(MatchError("error-creating-summary"))
 			})
 		})
@@ -71,7 +71,7 @@ var _ = Describe("Server", func() {
 
 			fakeStore.ListReturns([]*api.SuiteSummary{&api.SuiteSummary{Name: "cake"}}, nil)
 
-			res, err = snowflakeServer.List(ctx, req)
+			res, err = suiteService.List(ctx, req)
 			Expect(err).NotTo(HaveOccurred())
 		})
 
@@ -90,7 +90,7 @@ var _ = Describe("Server", func() {
 			})
 
 			It("returns the error", func() {
-				_, err := snowflakeServer.List(ctx, req)
+				_, err := suiteService.List(ctx, req)
 				Expect(err).To(MatchError("error-listing-summaries"))
 			})
 		})
@@ -114,7 +114,7 @@ var _ = Describe("Server", func() {
 
 			fakeStore.GetReturns(&api.Test{Name: "cake"}, nil)
 
-			res, err = snowflakeServer.Get(ctx, req)
+			res, err = suiteService.Get(ctx, req)
 			Expect(err).NotTo(HaveOccurred())
 		})
 
@@ -137,7 +137,7 @@ var _ = Describe("Server", func() {
 			})
 
 			It("returns the error", func() {
-				_, err := snowflakeServer.Get(ctx, req)
+				_, err := suiteService.Get(ctx, req)
 				Expect(err).To(MatchError("error-geting-test"))
 			})
 		})
