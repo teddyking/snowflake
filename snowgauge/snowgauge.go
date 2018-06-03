@@ -46,9 +46,9 @@ func Flakes(summaries []*api.SuiteSummary) ([]*api.Test, error) {
 	return flakesFrom(tests, failures), nil
 }
 
-func checkValid(thing, expectedCodebase, codebase string) error {
-	if expectedCodebase != codebase {
-		return fmt.Errorf("cannot detect flakes across different %ss - '%s' and '%s'", thing, expectedCodebase, codebase)
+func checkValid(thing, expected, actual string) error {
+	if expected != actual {
+		return fmt.Errorf("cannot detect flakes across different %ss - '%s' and '%s'", thing, expected, actual)
 	}
 
 	return nil
