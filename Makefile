@@ -10,5 +10,8 @@ runclient:
 runserver:
 	PORT=2929 go run cmd/server/snowflake.go
 
+runweb:
+	go run cmd/web/snowflake-web.go
+
 test:
 	ginkgo -r -skipPackage examplesuite

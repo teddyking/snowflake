@@ -1,0 +1,27 @@
+.container {
+  max-width: 800px; }
+.header {
+  margin-top: 2rem;
+  text-align: center; }
+.summary {
+	width: 100%;
+	background: #fff;
+	z-index: 99;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+  text-align: center; }
+.flake {
+	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  border-top: 1px solid #eee;
+  padding: 2rem 0;
+  margin-bottom: 0;
+  margin-top: 2rem;
+  margin-right: 2rem;
+	margin-left: 2rem; }
+.flake-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+.bold {
+  font-weight: bold; }
