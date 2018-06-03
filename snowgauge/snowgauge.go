@@ -22,11 +22,11 @@ func Flakes(summaries []*api.SuiteSummary) ([]*api.Test, error) {
 	expectedCommit := summaries[0].Commit
 
 	for _, summary := range summaries {
-		if err := checkValidCodebase(expectedCodebase, summary.Codebase); err != nil {
+		if err := checkValid("codebase", expectedCodebase, summary.Codebase); err != nil {
 			return []*api.Test{}, err
 		}
 
-		if err := checkValidCommit(expectedCommit, summary.Commit); err != nil {
+		if err := checkValid("commit", expectedCommit, summary.Commit); err != nil {
 			return []*api.Test{}, err
 		}
 
@@ -46,17 +46,9 @@ func Flakes(summaries []*api.SuiteSummary) ([]*api.Test, error) {
 	return flakesFrom(tests, failures), nil
 }
 
-func checkValidCodebase(expectedCodebase, codebase string) error {
+func checkValid(thing, expectedCodebase, codebase string) error {
 	if expectedCodebase != codebase {
-		return fmt.Errorf("cannot detect flakes across different codebases - '%s' and '%s'", expectedCodebase, codebase)
-	}
-
-	return nil
-}
-
-func checkValidCommit(expectedCommit, commit string) error {
-	if expectedCommit != commit {
-		return fmt.Errorf("cannot detect flakes across different commits - '%s' and '%s'", expectedCommit, commit)
+		return fmt.Errorf("cannot detect flakes across different %ss - '%s' and '%s'", thing, expectedCodebase, codebase)
 	}
 
 	return nil
