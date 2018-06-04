@@ -34,3 +34,14 @@ message Failure {
   string message = 1;
 }
 
+message Flake {
+  string codebase = 1;
+  string commit = 2;
+  string name = 3;
+  string location = 4;
+  int64 successes = 5;
+  int64 failures = 6;
+  string first_occurrence = 7;
+  string last_occurrence = 8;
+  Failure failure = 9;
+}

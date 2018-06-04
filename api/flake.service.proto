@@ -4,12 +4,12 @@ import "types.proto";
 
 package api;
 
-service Flake {
+service Flaker {
   rpc List (FlakeListRequest) returns (FlakeListResponse) {}
 }
 
-
-message FlakeListRequest {}
+message FlakeListRequest {
+}
 message FlakeListResponse {
-  repeated Test Tests = 1;
+  repeated Flake flakes = 1;
 }
