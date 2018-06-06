@@ -13,15 +13,22 @@ import (
 
 var _ = Describe("Handler", func() {
 	var (
-		staticDirPath    string
 		responseRecorder *httptest.ResponseRecorder
 		h                http.Handler
 	)
 
 	BeforeEach(func() {
-		staticDirPath = filepath.Join("..", "static")
+		templateDirPath := filepath.Join("..", "template")
+		staticDirPath := filepath.Join("..", "static")
 		responseRecorder = httptest.NewRecorder()
-		h = New(staticDirPath)
+
+		h = New(templateDirPath, staticDirPath)
+	})
+
+	It("handles GET /", func() {
+		h.ServeHTTP(responseRecorder, newRequest("GET", "/"))
+
+		Expect(responseRecorder.Result().StatusCode).To(Equal(http.StatusOK))
 	})
 
 	It("handles GET /static/*", func() {
