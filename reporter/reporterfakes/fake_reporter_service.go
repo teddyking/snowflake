@@ -10,32 +10,32 @@ import (
 	"google.golang.org/grpc"
 )
 
-type FakeSuiteClient struct {
-	CreateStub        func(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error)
+type FakeReporterService struct {
+	CreateStub        func(ctx context.Context, in *api.ReporterCreateReq, opts ...grpc.CallOption) (*api.ReporterCreateRes, error)
 	createMutex       sync.RWMutex
 	createArgsForCall []struct {
 		ctx  context.Context
-		in   *api.SuiteCreateRequest
+		in   *api.ReporterCreateReq
 		opts []grpc.CallOption
 	}
 	createReturns struct {
-		result1 *api.SuiteCreateResponse
+		result1 *api.ReporterCreateRes
 		result2 error
 	}
 	createReturnsOnCall map[int]struct {
-		result1 *api.SuiteCreateResponse
+		result1 *api.ReporterCreateRes
 		result2 error
 	}
 	invocations      map[string][][]interface{}
 	invocationsMutex sync.RWMutex
 }
 
-func (fake *FakeSuiteClient) Create(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error) {
+func (fake *FakeReporterService) Create(ctx context.Context, in *api.ReporterCreateReq, opts ...grpc.CallOption) (*api.ReporterCreateRes, error) {
 	fake.createMutex.Lock()
 	ret, specificReturn := fake.createReturnsOnCall[len(fake.createArgsForCall)]
 	fake.createArgsForCall = append(fake.createArgsForCall, struct {
 		ctx  context.Context
-		in   *api.SuiteCreateRequest
+		in   *api.ReporterCreateReq
 		opts []grpc.CallOption
 	}{ctx, in, opts})
 	fake.recordInvocation("Create", []interface{}{ctx, in, opts})
@@ -49,41 +49,41 @@ func (fake *FakeSuiteClient) Create(ctx context.Context, in *api.SuiteCreateRequ
 	return fake.createReturns.result1, fake.createReturns.result2
 }
 
-func (fake *FakeSuiteClient) CreateCallCount() int {
+func (fake *FakeReporterService) CreateCallCount() int {
 	fake.createMutex.RLock()
 	defer fake.createMutex.RUnlock()
 	return len(fake.createArgsForCall)
 }
 
-func (fake *FakeSuiteClient) CreateArgsForCall(i int) (context.Context, *api.SuiteCreateRequest, []grpc.CallOption) {
+func (fake *FakeReporterService) CreateArgsForCall(i int) (context.Context, *api.ReporterCreateReq, []grpc.CallOption) {
 	fake.createMutex.RLock()
 	defer fake.createMutex.RUnlock()
 	return fake.createArgsForCall[i].ctx, fake.createArgsForCall[i].in, fake.createArgsForCall[i].opts
 }
 
-func (fake *FakeSuiteClient) CreateReturns(result1 *api.SuiteCreateResponse, result2 error) {
+func (fake *FakeReporterService) CreateReturns(result1 *api.ReporterCreateRes, result2 error) {
 	fake.CreateStub = nil
 	fake.createReturns = struct {
-		result1 *api.SuiteCreateResponse
+		result1 *api.ReporterCreateRes
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeSuiteClient) CreateReturnsOnCall(i int, result1 *api.SuiteCreateResponse, result2 error) {
+func (fake *FakeReporterService) CreateReturnsOnCall(i int, result1 *api.ReporterCreateRes, result2 error) {
 	fake.CreateStub = nil
 	if fake.createReturnsOnCall == nil {
 		fake.createReturnsOnCall = make(map[int]struct {
-			result1 *api.SuiteCreateResponse
+			result1 *api.ReporterCreateRes
 			result2 error
 		})
 	}
 	fake.createReturnsOnCall[i] = struct {
-		result1 *api.SuiteCreateResponse
+		result1 *api.ReporterCreateRes
 		result2 error
 	}{result1, result2}
 }
 
-func (fake *FakeSuiteClient) Invocations() map[string][][]interface{} {
+func (fake *FakeReporterService) Invocations() map[string][][]interface{} {
 	fake.invocationsMutex.RLock()
 	defer fake.invocationsMutex.RUnlock()
 	fake.createMutex.RLock()
@@ -95,7 +95,7 @@ func (fake *FakeSuiteClient) Invocations() map[string][][]interface{} {
 	return copiedInvocations
 }
 
-func (fake *FakeSuiteClient) recordInvocation(key string, args []interface{}) {
+func (fake *FakeReporterService) recordInvocation(key string, args []interface{}) {
 	fake.invocationsMutex.Lock()
 	defer fake.invocationsMutex.Unlock()
 	if fake.invocations == nil {
@@ -107,4 +107,4 @@ func (fake *FakeSuiteClient) recordInvocation(key string, args []interface{}) {
 	fake.invocations[key] = append(fake.invocations[key], args)
 }
 
-var _ reporter.SuiteClient = new(FakeSuiteClient)
+var _ reporter.ReporterService = new(FakeReporterService)

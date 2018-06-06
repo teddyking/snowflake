@@ -14,27 +14,27 @@ import (
 
 var _ = Describe("SnowflakeReporter", func() {
 	var (
-		r            *SnowflakeReporter
-		suiteClient  *reporterfakes.FakeSuiteClient
-		codebase     string
-		commit       string
-		suiteSummary *types.SuiteSummary
-		ginkgoConfig config.GinkgoConfigType
-		specSummary  *types.SpecSummary
-		setupSummary *types.SetupSummary
+		r               *SnowflakeReporter
+		reporterService *reporterfakes.FakeReporterService
+		importPath      string
+		commit          string
+		suiteSummary    *types.SuiteSummary
+		ginkgoConfig    config.GinkgoConfigType
+		specSummary     *types.SpecSummary
+		setupSummary    *types.SetupSummary
 	)
 
 	BeforeEach(func() {
-		codebase = "github.com/teddyking/snowflake/reporter"
+		importPath = "github.com/teddyking/snowflake/reporter"
 		commit = "aabb1122"
-		suiteClient = new(reporterfakes.FakeSuiteClient)
+		reporterService = new(reporterfakes.FakeReporterService)
 
 		ginkgoConfig = config.GinkgoConfigType{}
 		suiteSummary = &types.SuiteSummary{
 			SuiteDescription: "A Sweet Suite",
 		}
 
-		r = snowflake.NewReporter(codebase, commit, suiteClient)
+		r = snowflake.NewReporter(importPath, commit, reporterService)
 	})
 
 	Describe("SpecSuiteWillBegin", func() {
@@ -42,12 +42,12 @@ var _ = Describe("SnowflakeReporter", func() {
 			r.SpecSuiteWillBegin(ginkgoConfig, suiteSummary)
 		})
 
-		It("records the suite name", func() {
-			Expect(r.Summary.Name).To(Equal("A Sweet Suite"))
+		It("records the suite description", func() {
+			Expect(r.Report.Description).To(Equal("A Sweet Suite"))
 		})
 
 		It("records the time at which the suite started", func() {
-			Expect(r.Summary.StartedAt).To(BeNumerically(">", 0))
+			Expect(r.Report.StartedAt).To(BeNumerically(">", 0))
 		})
 	})
 
@@ -72,16 +72,16 @@ var _ = Describe("SnowflakeReporter", func() {
 			r.SpecWillRun(specSummary)
 		})
 
-		It("adds the test to summary", func() {
-			Expect(len(r.Summary.Tests)).To(Equal(1))
+		It("adds the test to the report", func() {
+			Expect(len(r.Report.Tests)).To(Equal(1))
 		})
 
 		It("records the time at which the spec started", func() {
-			Expect(r.Summary.Tests[0].StartedAt).To(BeNumerically(">", 0))
+			Expect(r.Report.Tests[0].StartedAt).To(BeNumerically(">", 0))
 		})
 
-		It("records the location of the test in the codebase", func() {
-			Expect(r.Summary.Tests[0].Location).To(Equal("/some/file/path.go:15"))
+		It("records the filepath:linenumber location of the test", func() {
+			Expect(r.Report.Tests[0].Location).To(Equal("/some/file/path.go:15"))
 		})
 	})
 
@@ -112,18 +112,18 @@ var _ = Describe("SnowflakeReporter", func() {
 			r.SpecDidComplete(specSummary)
 		})
 
-		It("doesn't append new tests to the summary", func() {
-			Expect(len(r.Summary.Tests)).To(Equal(1))
+		It("doesn't append new tests to the report", func() {
+			Expect(len(r.Report.Tests)).To(Equal(1))
 		})
 
-		It("records the spec name", func() {
-			recordedSpecName := r.Summary.Tests[0].Name
+		It("records the spec description", func() {
+			recordedSpecDescription := r.Report.Tests[0].Description
 
-			Expect(recordedSpecName).To(Equal("Integration CLI when passed an invalid flag exits with a status of 1"))
+			Expect(recordedSpecDescription).To(Equal("Integration CLI when passed an invalid flag exits with a status of 1"))
 		})
 
 		It("records the time at which the spec completed", func() {
-			recordedFinishedAt := r.Summary.Tests[0].FinishedAt
+			recordedFinishedAt := r.Report.Tests[0].FinishedAt
 
 			Expect(recordedFinishedAt).To(BeNumerically(">", 0))
 		})
@@ -134,7 +134,7 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_PASSED))
 			})
@@ -153,13 +153,13 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_FAILED))
 			})
 
 			It("records the failure message", func() {
-				recordedSpecFailureMessage := r.Summary.Tests[0].Failure.Message
+				recordedSpecFailureMessage := r.Report.Tests[0].Failure.Message
 
 				Expect(recordedSpecFailureMessage).To(Equal("Expected x to equal y\ngithub.com/teddyking/fail/fail_test.go:100"))
 			})
@@ -171,7 +171,7 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_SKIPPED))
 			})
@@ -183,7 +183,7 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_PENDING))
 			})
@@ -202,13 +202,13 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_PANICKED))
 			})
 
 			It("records the failure message", func() {
-				recordedSpecFailureMessage := r.Summary.Tests[0].Failure.Message
+				recordedSpecFailureMessage := r.Report.Tests[0].Failure.Message
 
 				Expect(recordedSpecFailureMessage).To(Equal("Panicked\ngithub.com/teddyking/fail/fail_test.go:100"))
 			})
@@ -227,13 +227,13 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_TIMEDOUT))
 			})
 
 			It("records the failure message", func() {
-				recordedSpecFailureMessage := r.Summary.Tests[0].Failure.Message
+				recordedSpecFailureMessage := r.Report.Tests[0].Failure.Message
 
 				Expect(recordedSpecFailureMessage).To(Equal("Timed out\ngithub.com/teddyking/fail/fail_test.go:100"))
 			})
@@ -245,7 +245,7 @@ var _ = Describe("SnowflakeReporter", func() {
 			})
 
 			It("records the spec state", func() {
-				recordedSpecState := r.Summary.Tests[0].State
+				recordedSpecState := r.Report.Tests[0].State
 
 				Expect(recordedSpecState).To(Equal(api.Test_INVALID))
 			})
@@ -259,13 +259,13 @@ var _ = Describe("SnowflakeReporter", func() {
 		})
 
 		It("records the time at which the suite finished", func() {
-			Expect(r.Summary.FinishedAt).To(BeNumerically(">", 0))
+			Expect(r.Report.FinishedAt).To(BeNumerically(">", 0))
 		})
 
-		It("sends the summary to a snowflake server", func() {
-			Expect(suiteClient.CreateCallCount()).To(Equal(1))
-			_, sentCreateRequest, _ := suiteClient.CreateArgsForCall(0)
-			Expect(sentCreateRequest.Summary.Name).To(Equal("A Sweet Suite"))
+		It("sends the report to a snowflake server", func() {
+			Expect(reporterService.CreateCallCount()).To(Equal(1))
+			_, sentCreateRequest, _ := reporterService.CreateArgsForCall(0)
+			Expect(sentCreateRequest.Report.Description).To(Equal("A Sweet Suite"))
 		})
 	})
 

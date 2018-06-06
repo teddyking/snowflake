@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "types.proto";
+
+package api;
+
+service Reporter {
+  rpc Create(ReporterCreateReq) returns (ReporterCreateRes) {}
+}
+
+message ReporterCreateReq {
+  Report report = 1;
+}
+message ReporterCreateRes {}

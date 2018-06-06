@@ -4,14 +4,8 @@ ci:
 proto:
 	protoc --proto_path=api api/*.proto --go_out=plugins=grpc:api
 
-runclient:
-	PORT=2929 go run cmd/client/snfc.go
-
 runserver:
 	PORT=2929 go run cmd/server/snowflake.go
-
-runweb:
-	go run cmd/web/snowflake-web.go
 
 test:
 	ginkgo -r -skipPackage examplesuite

@@ -7,42 +7,25 @@ import (
 )
 
 type VolatileStore struct {
-	summaries []*api.SuiteSummary
-	mu        sync.Mutex
+	reports []*api.Report
+	mu      sync.Mutex
 }
 
 func NewVolatileStore() *VolatileStore {
 	return &VolatileStore{}
 }
 
-func (v *VolatileStore) Create(suiteSummary *api.SuiteSummary) error {
+func (v *VolatileStore) CreateReport(report *api.Report) error {
 	v.mu.Lock()
 	defer v.mu.Unlock()
 
-	v.summaries = append(v.summaries, suiteSummary)
+	v.reports = append(v.reports, report)
 	return nil
 }
 
-func (v *VolatileStore) List() ([]*api.SuiteSummary, error) {
+func (v *VolatileStore) ListReports() ([]*api.Report, error) {
 	v.mu.Lock()
 	defer v.mu.Unlock()
 
-	return v.summaries, nil
-}
-
-func (v *VolatileStore) Get(codebase, commit, location string) (*api.Test, error) {
-	v.mu.Lock()
-	defer v.mu.Unlock()
-
-	for _, summary := range v.summaries {
-		if summary.Codebase == codebase && summary.Commit == commit {
-			for _, test := range summary.Tests {
-				if test.Location == location {
-					return test, nil
-				}
-			}
-		}
-	}
-
-	return &api.Test{}, nil
+	return v.reports, nil
 }

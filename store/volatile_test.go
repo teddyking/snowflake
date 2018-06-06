@@ -11,46 +11,33 @@ import (
 var _ = Describe("Volatile", func() {
 	var (
 		volatileStore *VolatileStore
-		summary       *api.SuiteSummary
+		report        *api.Report
 	)
 
 	BeforeEach(func() {
-		summary = &api.SuiteSummary{
-			Name:     "test-name",
-			Codebase: "test-codebase",
-			Commit:   "test-commit",
+		report = &api.Report{
+			Description: "test-desc",
+			ImportPath:  "test-import-path",
+			Commit:      "test-commit",
 			Tests: []*api.Test{
-				&api.Test{Name: "test-name1", Location: "test-location1"},
-				&api.Test{Name: "test-name2", Location: "test-location2"},
-				&api.Test{Name: "test-name3", Location: "test-location3"},
+				&api.Test{Description: "test-name1", Location: "test-location1"},
+				&api.Test{Description: "test-name2", Location: "test-location2"},
+				&api.Test{Description: "test-name3", Location: "test-location3"},
 			},
 		}
 
 		volatileStore = NewVolatileStore()
 	})
 
-	Describe("Create and List", func() {
-		It("stores and retrieves summaries in/from memory", func() {
-			Expect(volatileStore.Create(summary)).To(Succeed())
-			Expect(volatileStore.List()).To(HaveLen(1))
+	Describe("CreateReport and List", func() {
+		It("stores and retrieves reports in/from memory", func() {
+			Expect(volatileStore.CreateReport(report)).To(Succeed())
+			Expect(volatileStore.ListReports()).To(HaveLen(1))
 
-			summaries, err := volatileStore.List()
+			reports, err := volatileStore.ListReports()
 			Expect(err).NotTo(HaveOccurred())
 
-			Expect(summaries[0].Name).To(Equal("test-name"))
-		})
-	})
-
-	Describe("Get", func() {
-		BeforeEach(func() {
-			Expect(volatileStore.Create(summary)).To(Succeed())
-		})
-
-		It("retrieves a specific test from memory", func() {
-			test, err := volatileStore.Get("test-codebase", "test-commit", "test-location2")
-			Expect(err).NotTo(HaveOccurred())
-
-			Expect(test.Name).To(Equal("test-name2"))
+			Expect(reports[0].Description).To(Equal("test-desc"))
 		})
 	})
 })

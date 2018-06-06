@@ -2,17 +2,27 @@ syntax = "proto3";
 
 package api;
 
-message SuiteSummary {
-  string name = 1;
-  string codebase = 2;
+// A Report represents the result of a test suite run.
+message Report {
+  // description is the suite description, e.g. "Integration Suite".
+  string description = 1;
+  // import_path is the suite's project's import path, e.g. "github.com/teddyking/snowflake".
+  string import_path = 2;
+  // commit is the current git commit of the codebase on which the suite was run.
   string commit = 3;
+  // tests are the suite's test results.
   repeated Test tests = 4;
+  // started_at is the time at which the test suite started.
   int64 started_at = 5;
+  // finished_at is the time at which the test suite finished.
   int64 finished_at = 6;
 }
 
+// A Test represents the result of a test run.
 message Test {
-  string name = 1;
+  // description is the test description, e.g. "Handler returns an HTTP 200".
+  string description = 1;
+  // State represents possible test states.
   enum State {
     UNKNOWN = 0;
     PASSED = 1;
@@ -23,25 +33,20 @@ message Test {
     TIMEDOUT = 6;
     INVALID = 7;
   }
+  // state is the resulting state of the test run.
   State state = 2;
+  // failure represents a test failure and is only set if state == FAILED.
   Failure failure = 3;
+  // location is the filepath:linenumber for the test.
   string location = 4;
+  // started_at is the time at which the test started.
   int64 started_at = 5;
+  // finished_at is the time at which the test finished.
   int64 finished_at = 6;
 }
 
+// A Failure represents a test failure.
 message Failure {
+  // message is the output from the failing test, e.g. "expected A to equal B".
   string message = 1;
-}
-
-message Flake {
-  string codebase = 1;
-  string commit = 2;
-  string name = 3;
-  string location = 4;
-  int64 successes = 5;
-  int64 failures = 6;
-  string first_occurrence = 7;
-  string last_occurrence = 8;
-  Failure failure = 9;
 }

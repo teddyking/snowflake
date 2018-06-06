@@ -17,7 +17,7 @@ import (
 func TestExamplesuite(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	codebase := "github.com/teddyking/snowflake/examples/examplesuite"
+	importPath := "github.com/teddyking/snowflake/examples/examplesuite"
 	gitCommitOutput, _ := exec.Command("git", "rev-parse", "HEAD").Output()
 	gitCommit := strings.Trim(string(gitCommitOutput), "\n")
 
@@ -26,7 +26,7 @@ func TestExamplesuite(t *testing.T) {
 		log.Fatalf("could not connect to server: %s", err.Error())
 	}
 
-	suiteClient := api.NewSuiteClient(conn)
-	snowflakeReporter := snowflake.NewReporter(codebase, gitCommit, suiteClient)
+	reporterClient := api.NewReporterClient(conn)
+	snowflakeReporter := snowflake.NewReporter(importPath, gitCommit, reporterClient)
 	RunSpecsWithDefaultAndCustomReporters(t, "Examplesuite Suite", []Reporter{snowflakeReporter})
 }

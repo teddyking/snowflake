@@ -8,14 +8,6 @@ jobs:
   - task: unit
     file: snowflake/build/ci/unit.yml
 
-- name: integration
-  plan:
-  - get: snowflake
-    passed: [unit]
-    trigger: true
-  - task: integration
-    file: snowflake/build/ci/integration.yml
-
 resources:
 - name: snowflake
   type: git

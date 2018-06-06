@@ -12,19 +12,19 @@ import (
 	"google.golang.org/grpc"
 )
 
-//go:generate counterfeiter . SuiteClient
-type SuiteClient interface {
-	Create(ctx context.Context, in *api.SuiteCreateRequest, opts ...grpc.CallOption) (*api.SuiteCreateResponse, error)
+//go:generate counterfeiter . ReporterService
+type ReporterService interface {
+	Create(ctx context.Context, in *api.ReporterCreateReq, opts ...grpc.CallOption) (*api.ReporterCreateRes, error)
 }
 
 type SnowflakeReporter struct {
-	Summary *api.SuiteSummary
-	Client  SuiteClient
+	Report          *api.Report
+	ReporterService ReporterService
 }
 
 func (r *SnowflakeReporter) SpecSuiteWillBegin(config config.GinkgoConfigType, summary *types.SuiteSummary) {
-	r.Summary.Name = summary.SuiteDescription
-	r.Summary.StartedAt = time.Now().Unix()
+	r.Report.Description = summary.SuiteDescription
+	r.Report.StartedAt = time.Now().Unix()
 }
 
 func (r *SnowflakeReporter) SpecWillRun(specSummary *types.SpecSummary) {
@@ -33,13 +33,13 @@ func (r *SnowflakeReporter) SpecWillRun(specSummary *types.SpecSummary) {
 		Location:  findIt(specSummary.ComponentCodeLocations),
 	}
 
-	r.Summary.Tests = append(r.Summary.Tests, test)
+	r.Report.Tests = append(r.Report.Tests, test)
 }
 
 func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 	test := r.findTestByLocation(findIt(specSummary.ComponentCodeLocations))
 
-	test.Name = strings.Join(specSummary.ComponentTexts[1:], " ")
+	test.Description = strings.Join(specSummary.ComponentTexts[1:], " ")
 	test.FinishedAt = time.Now().Unix()
 	test.State = ginkgoStateToTestState(specSummary.State)
 
@@ -54,11 +54,11 @@ func (r *SnowflakeReporter) SpecDidComplete(specSummary *types.SpecSummary) {
 }
 
 func (r *SnowflakeReporter) SpecSuiteDidEnd(summary *types.SuiteSummary) {
-	r.Summary.FinishedAt = time.Now().Unix()
+	r.Report.FinishedAt = time.Now().Unix()
 
 	ctx := context.Background()
-	req := &api.SuiteCreateRequest{Summary: r.Summary}
-	r.Client.Create(ctx, req)
+	req := &api.ReporterCreateReq{Report: r.Report}
+	r.ReporterService.Create(ctx, req)
 }
 
 func (r *SnowflakeReporter) BeforeSuiteDidRun(setupSummary *types.SetupSummary) {}
@@ -108,7 +108,7 @@ func findIt(locations []types.CodeLocation) string {
 }
 
 func (r *SnowflakeReporter) findTestByLocation(location string) *api.Test {
-	for _, test := range r.Summary.Tests {
+	for _, test := range r.Report.Tests {
 		if test.Location == location {
 			return test
 		}

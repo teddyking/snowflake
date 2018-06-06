@@ -1,4 +1,4 @@
-package suite_test
+package reporter_test
 
 import (
 	. "github.com/onsi/ginkgo"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func TestServer(t *testing.T) {
+func TestReporter(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Suite Service Suite")
+	RunSpecs(t, "Reporter Service Suite")
 }

@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/teddyking/snowflake/api"
-	"github.com/teddyking/snowflake/services/suite"
+	"github.com/teddyking/snowflake/services/reporter"
 	"github.com/teddyking/snowflake/store"
 	"google.golang.org/grpc"
 )
@@ -15,8 +15,8 @@ func main() {
 	log.Println("--- snowflake server ---")
 
 	grpcServer := grpc.NewServer()
-	suiteService := suite.New(store.NewVolatileStore())
-	api.RegisterSuiteServer(grpcServer, suiteService)
+	reporterService := reporter.New(store.NewVolatileStore())
+	api.RegisterReporterServer(grpcServer, reporterService)
 
 	listenPort := os.Getenv("PORT")
 	if listenPort == "" {
