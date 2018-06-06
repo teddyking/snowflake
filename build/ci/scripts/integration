@@ -1,0 +1,12 @@
+#!/bin/sh
+
+set -e
+
+export GOPATH=$GOPATH:$(pwd)
+
+cd src/github.com/teddyking/snowflake
+make runserver &
+
+sleep 0.2
+
+ginkgo examples/examplesuite
