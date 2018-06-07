@@ -4,10 +4,10 @@ import (
 	"net/http"
 )
 
-func New(templateDirPath, staticDirPath string) http.Handler {
+func New(templateDirPath, staticDirPath string, flakerService FlakerService) http.Handler {
 	mux := http.NewServeMux()
 
-	indexHandler := NewIndexHandler(templateDirPath, nil)
+	indexHandler := NewIndexHandler(templateDirPath, flakerService)
 	fs := http.FileServer(http.Dir(staticDirPath))
 
 	mux.HandleFunc("/", indexHandler.HandleIndex)

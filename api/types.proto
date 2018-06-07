@@ -58,16 +58,18 @@ message Flake {
   string import_path = 1;
   // commit is the current git commit of the codebase on which the suite was run.
   string commit = 2;
-  // description is the test description, e.g. "Handler returns an HTTP 200".
-  string description = 3;
+  // suite_description is the test's suite's description, e.g. "Integration Suite".
+  string suite_description = 3;
+  // test_description is the test description, e.g. "Handler returns an HTTP 200".
+  string test_description = 4;
   // location is the filepath:linenumber for the test.
-  string location = 4;
+  string location = 5;
   // successes is the number of times the test completed with a PASSED state.
-  int64 successes = 5;
+  int64 successes = 6;
   // failures is the number of times the test completed with a FAILED state.
-  int64 failures = 6;
+  int64 failures = 7;
   // started_at is the time at which the test first started flaking.
-  int64 started_at = 7;
+  int64 started_at = 8;
   // failure contains information about why the test is sometimes failing.
-  Failure failure =8;
+  Failure failure = 9;
 }

@@ -39,28 +39,30 @@
       -- Found x flakes across y suites --
     </div>
 
+    {{ range . }}
     <div class="flake">
       <div class="flake-item row">
-        <div class="two columns">Codebase:</div><div class="ten columns">snowflake</div>
+        <div class="two columns">Codebase:</div><div class="ten columns"><a href="">{{ .ImportPath }}</a></div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Suite:</div><div class="ten columns">Integration Suite</div>
+        <div class="two columns">Suite:</div><div class="ten columns"><a href="">{{ .SuiteDescription }}</a></div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Test:</div><div class="ten columns"><a href="">[It] works successfully</a></div>
+        <div class="two columns">Test:</div><div class="ten columns"><a href="">{{ .TestDescription }}</a></div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Cause:</div><div class="ten columns">Expected 1 to equal 2</div>
+        <div class="two columns">Cause:</div><div class="ten columns">{{ .Failure.Message }}</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Flake rate:</div><div class="ten columns">3 failures / 11 passes</div>
+        <div class="two columns">Flake rate:</div><div class="ten columns">{{ .Failures }} failures / {{ .Successes }} passes</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Started:</div><div class="ten columns">1st Jan 2018 - 14:35</div>
+        <div class="two columns">Started:</div><div class="ten columns">{{ .StartedAt }}</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Commit:</div><div class="ten columns"><a href="">c2f7feb</a></div>
+        <div class="two columns">Commit:</div><div class="ten columns"><a href="">{{ .Commit }}</a></div>
       </div>
     </div>
+    {{ end }}
   </div>
 </body>

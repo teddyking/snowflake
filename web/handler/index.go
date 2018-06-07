@@ -1,13 +1,19 @@
 package handler
 
 import (
+	"context"
+	"html/template"
 	"net/http"
 	"path/filepath"
 
-	"github.com/alecthomas/template"
+	"github.com/teddyking/snowflake/api"
+	"google.golang.org/grpc"
 )
 
-type FlakerService interface{}
+//go:generate counterfeiter . FlakerService
+type FlakerService interface {
+	List(ctx context.Context, in *api.FlakerListReq, opts ...grpc.CallOption) (*api.FlakerListRes, error)
+}
 
 type IndexHandler struct {
 	templateDirPath string
@@ -22,11 +28,17 @@ func NewIndexHandler(templateDirPath string, flakerService FlakerService) *Index
 }
 
 func (h *IndexHandler) HandleIndex(w http.ResponseWriter, r *http.Request) {
+	flakerListRes, err := h.flakerService.List(context.Background(), &api.FlakerListReq{})
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
 	t, err := template.ParseFiles(filepath.Join(h.templateDirPath, "index.html"))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
-	t.Execute(w, nil)
+	t.Execute(w, flakerListRes.Flakes)
 }
