@@ -5,15 +5,27 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
 
 	"github.com/teddyking/snowflake/api"
 	"github.com/teddyking/snowflake/web/handler"
-	"github.com/teddyking/snowflake/web/handler/handlerfakes"
+	"google.golang.org/grpc"
 )
 
 func main() {
 	log.Println("--- snowflake web ---")
+
+	serverPort := os.Getenv("SERVERPORT")
+	if serverPort == "" {
+		log.Fatal("SERVERPORT env var is not set")
+	}
+	log.Printf("connecting to port: %s", serverPort)
+
+	conn, err := grpc.Dial(":"+serverPort, grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("could not connect to server: %s", err.Error())
+	}
+
+	flakerService := api.NewFlakerClient(conn)
 
 	listenPort := os.Getenv("PORT")
 	if listenPort == "" {
@@ -23,23 +35,6 @@ func main() {
 
 	templateDirPath := filepath.Join("web", "template")
 	staticDirPath := filepath.Join("web", "static")
-	flakerService := new(handlerfakes.FakeFlakerService)
-
-	flakerService.ListReturns(&api.FlakerListRes{
-		Flakes: []*api.Flake{
-			&api.Flake{
-				ImportPath:       "github.com/teddyking/snowflake",
-				Commit:           "3a76bbc",
-				SuiteDescription: "Integration Suite",
-				TestDescription:  "[It] does something successfully",
-				Location:         "/path/to/some_test.go:12",
-				Successes:        10,
-				Failures:         3,
-				StartedAt:        time.Now().Unix(),
-				Failure:          &api.Failure{Message: "Expected 1 to equal 2"},
-			},
-		},
-	}, nil)
 
 	handler := handler.New(templateDirPath, staticDirPath, flakerService)
 
