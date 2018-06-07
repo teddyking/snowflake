@@ -50,3 +50,24 @@ message Failure {
   // message is the output from the failing test, e.g. "expected A to equal B".
   string message = 1;
 }
+
+// A Flake represents a flaking test, one that has both a PASSED and FAILED
+// state.
+message Flake {
+  // import_path is the suite's project's import path, e.g. "github.com/teddyking/snowflake".
+  string import_path = 1;
+  // commit is the current git commit of the codebase on which the suite was run.
+  string commit = 2;
+  // description is the test description, e.g. "Handler returns an HTTP 200".
+  string description = 3;
+  // location is the filepath:linenumber for the test.
+  string location = 4;
+  // successes is the number of times the test completed with a PASSED state.
+  int64 successes = 5;
+  // failures is the number of times the test completed with a FAILED state.
+  int64 failures = 6;
+  // started_at is the time at which the test first started flaking.
+  int64 started_at = 7;
+  // failure contains information about why the test is sometimes failing.
+  Failure failure =8;
+}

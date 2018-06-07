@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "types.proto";
+
+package api;
+
+service Flaker {
+  rpc List(FlakerListReq) returns (FlakerListRes) {}
+}
+
+message FlakerListReq {}
+message FlakerListRes {
+  repeated Flake flakes = 1;
+}
