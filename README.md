@@ -16,13 +16,11 @@ snowflake consists of four key components:
 To use snowflake you must first install the snowflake server and web, which can be done as follows:
 
 ```
-# install binaries
-go get github.com/teddyking/snowflake/cmd/snowflake
-go get github.com/teddyking/snowflake/cmd/snowflakeweb
+go get github.com/teddyking/snowflake
+cd $GOPATH/src/github.com/teddyking/snowflake
 
-# run them
-PORT=2929 snowflake
-SERVERPORT=2929 PORT=8080 snowflakeweb
+make runserver
+make runweb
 ```
 
 Then you need to configure your ginkgo test suites with the snowflake reporter, for example:
@@ -51,7 +49,7 @@ func TestExamplesuite(t *testing.T) {
 
 For a full example see the [examples/examplesuite](examples/examplesuite).
 
-Then finally run your test suites. Flaky tests will appear in the web UI.
+Then finally run your test suites. Flaky tests will appear in the web UI, which by default is accessible at [http://localhost:8080](http://localhost:8080).
 
 ## Running snowflake's tests
 
