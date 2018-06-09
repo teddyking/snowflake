@@ -51,6 +51,9 @@
         <div class="two columns">Test:</div><div class="ten columns"><a href="">{{ .TestDescription }}</a></div>
       </div>
       <div class="flake-item row">
+        <div class="two columns">Location:</div><div class="ten columns"><a href="">{{ .Location }}</a></div>
+      </div>
+      <div class="flake-item row">
         <div class="two columns">Cause:</div><div class="ten columns">{{ .Failure.Message }}</div>
       </div>
       <div class="flake-item row">
