@@ -33,7 +33,11 @@ func main() {
 	}
 	log.Printf("listening on port: %s", listenPort)
 
-	staticDirPath := filepath.Join("web", "static")
+	staticDirPath := os.Getenv("STATICDIR")
+	if staticDirPath == "" {
+		staticDirPath = filepath.Join("web", "static")
+	}
+	log.Printf("serving static assets from: %s", staticDirPath)
 
 	handler := handler.New(staticDirPath, flakerService)
 

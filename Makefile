@@ -10,10 +10,13 @@ runserver:
 runweb:
 	SERVERPORT=2929 go run cmd/snowflakeweb/snowflakeweb.go
 
-test: testunit testintegration
+test: testunit testintegration teste2e
+
+teste2e:
+	ginkgo -focus end-to-end integration
 
 testintegration:
-	ginkgo -r integration
+	ginkgo -r -skip end-to-end integration
 
 testunit:
 	ginkgo -r -skipPackage examplesuite,integration

@@ -4,6 +4,8 @@ import (
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 
+	"fmt"
+
 	"github.com/onsi/gomega/gbytes"
 	"github.com/onsi/gomega/gexec"
 )
@@ -56,6 +58,24 @@ var _ = Describe("snowflakeweb Integration", func() {
 
 			It("connects on the port specified by the SERVERPORT env var", func() {
 				Eventually(webSession.Err).Should(gbytes.Say("connecting to snowflake server on port: 2000"))
+			})
+		})
+	})
+
+	Describe("static dir", func() {
+		// super lame tests ...
+
+		It("serves static assets from the path sepecified by STATICDIR", func() {
+			Eventually(webSession.Err).Should(gbytes.Say("serving static assets from: ../web/static"))
+		})
+
+		When("the STATICDIR env var is set", func() {
+			BeforeEach(func() {
+				env = []string{fmt.Sprintf("STATICDIR=staticdir")}
+			})
+
+			It("serves static assets from the path sepecified by STATICDIR", func() {
+				Eventually(webSession.Err).Should(gbytes.Say("serving static assets from: staticdir"))
 			})
 		})
 	})

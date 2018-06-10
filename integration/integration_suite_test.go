@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net"
 	"os/exec"
+	"path/filepath"
 	"testing"
 	"time"
 
@@ -55,9 +56,10 @@ func startSnowflakeWeb(env ...string) *gexec.Session {
 	command := exec.Command(pathToSnowflakeWeb)
 	command.Stdout = GinkgoWriter
 	command.Stderr = GinkgoWriter
+	command.Env = []string{fmt.Sprintf("STATICDIR=%s", filepath.Join("..", "web", "static"))}
 
 	if len(env) > 0 {
-		command.Env = env
+		command.Env = append(command.Env, env...)
 	}
 
 	session, err := gexec.Start(command, GinkgoWriter, GinkgoWriter)

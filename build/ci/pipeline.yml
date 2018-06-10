@@ -16,6 +16,14 @@ jobs:
   - task: integration
     file: snowflake/build/ci/integration.yml
 
+- name: end-to-end
+  plan:
+  - get: snowflake
+    passed: [integration]
+    trigger: true
+  - task: integration
+    file: snowflake/build/ci/e2e.yml
+
 resources:
 - name: snowflake
   type: git
