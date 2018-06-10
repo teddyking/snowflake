@@ -2,12 +2,14 @@ package handler
 
 import (
 	"net/http"
+	"path/filepath"
 )
 
-func New(templateDirPath, staticDirPath string, flakerService FlakerService) http.Handler {
+func New(staticDirPath string, flakerService FlakerService) http.Handler {
 	mux := http.NewServeMux()
 
-	indexHandler := NewIndexHandler(templateDirPath, flakerService)
+	templatesDirPath := filepath.Join(staticDirPath, "templates")
+	indexHandler := NewIndexHandler(templatesDirPath, flakerService)
 	fs := http.FileServer(http.Dir(staticDirPath))
 
 	mux.HandleFunc("/", indexHandler.HandleIndex)

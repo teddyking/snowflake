@@ -8,6 +8,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"path/filepath"
 
 	"github.com/teddyking/snowflake/api"
 	"github.com/teddyking/snowflake/web/handler/handlerfakes"
@@ -24,7 +25,7 @@ var _ = Describe("IndexHandler", func() {
 	BeforeEach(func() {
 		fakeFlakerService = new(handlerfakes.FakeFlakerService)
 		responseRecorder = httptest.NewRecorder()
-		templatePath = "../template"
+		templatePath = filepath.Join("..", "static", "templates")
 
 		fakeFlakerService.ListReturns(&api.FlakerListRes{
 			Flakes: []*api.Flake{

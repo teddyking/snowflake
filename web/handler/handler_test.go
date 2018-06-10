@@ -21,13 +21,12 @@ var _ = Describe("Handler", func() {
 	)
 
 	BeforeEach(func() {
-		templateDirPath := filepath.Join("..", "template")
 		staticDirPath := filepath.Join("..", "static")
 		responseRecorder = httptest.NewRecorder()
 		fakeFlakerService := new(handlerfakes.FakeFlakerService)
 		fakeFlakerService.ListReturns(&api.FlakerListRes{}, nil)
 
-		h = New(templateDirPath, staticDirPath, fakeFlakerService)
+		h = New(staticDirPath, fakeFlakerService)
 	})
 
 	It("handles GET /", func() {

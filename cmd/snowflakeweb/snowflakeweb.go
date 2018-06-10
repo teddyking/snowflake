@@ -33,10 +33,9 @@ func main() {
 	}
 	log.Printf("listening on port: %s", listenPort)
 
-	templateDirPath := filepath.Join("web", "template")
 	staticDirPath := filepath.Join("web", "static")
 
-	handler := handler.New(templateDirPath, staticDirPath, flakerService)
+	handler := handler.New(staticDirPath, flakerService)
 
 	log.Fatal(http.ListenAndServe(":"+listenPort, handler))
 }
