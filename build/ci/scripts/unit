@@ -5,4 +5,4 @@ set -e
 export GOPATH=$GOPATH:$(pwd)
 
 cd src/github.com/teddyking/snowflake
-make test
+make testunit
