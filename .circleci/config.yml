@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: teddyking/go-ci:1.10.2
+    working_directory: /go/src/github.com/teddyking/snowflake
+    steps:
+      - checkout
+      - run: make test
