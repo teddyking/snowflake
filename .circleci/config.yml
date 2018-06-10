@@ -1,9 +1,18 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: teddyking/go-ci:1.10.2
     working_directory: /go/src/github.com/teddyking/snowflake
     steps:
       - checkout
       - run: make test
+
+workflows:
+  version: 2
+  periodic:
+    jobs:
+      - test
+    triggers:
+      - schedule:
+          cron: "* * * * *"
