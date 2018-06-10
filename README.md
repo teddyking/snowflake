@@ -51,6 +51,15 @@ For a full example see the [examples/examplesuite](examples/examplesuite).
 
 Then finally run your test suites. Flaky tests will appear in the web UI, which by default is accessible at [http://localhost:8080](http://localhost:8080).
 
-## Running snowflake's tests
+## Testing
 
-`make test`
+[![CircleCI](https://circleci.com/gh/teddyking/snowflake/tree/master.svg?style=svg&circle-token=7d4e3f0b023e5aa60b8ce4461db19eb5472acad5)](https://circleci.com/gh/teddyking/snowflake/tree/master)
+
+The tests can be run as follows:
+
+```
+make test            # run all tests
+make testunit        # run unit tests only
+make testintegration # run integration tests only
+make teste2e         # run end-to-end tests only
+```
