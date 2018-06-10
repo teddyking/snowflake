@@ -6,9 +6,9 @@ A tool to help identify, triage and keep track of flaky tests.
 
 snowflake consists of four key components:
 
-1. [Reporter](reporter/) - a [ginkgo](http://onsi.github.io/ginkgo/) reporter, which sends the results of test runs to the snowflake server.
-1. [Server](cmd/snowflake/snowflake.go) - serves the snowflake API.
-1. [Web](cmd/snowflakeweb/snowflake-web.go) - provides a web UI.
+1. [reporter](reporter/) - a [ginkgo](http://onsi.github.io/ginkgo/) reporter, which sends the results of test runs to the snowflake server.
+1. [server](cmd/snowflake/snowflake.go) - serves the snowflake API.
+1. [web](cmd/snowflakeweb/snowflakeweb.go) - provides a web UI.
 1. [snowgauge](snowgauge/) - the package responsible for actually detecting flaky tests.
 
 ## Installation and Usage

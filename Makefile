@@ -8,7 +8,7 @@ runserver:
 	PORT=2929 go run cmd/snowflake/snowflake.go
 
 runweb:
-	SERVERPORT=2929 go run cmd/snowflakeweb/snowflake-web.go
+	SERVERPORT=2929 go run cmd/snowflakeweb/snowflakeweb.go
 
 test: testunit testintegration
 

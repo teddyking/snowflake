@@ -27,7 +27,6 @@ var _ = Describe("snowflakeweb Integration", func() {
 	})
 
 	Describe("listen port", func() {
-
 		It("listens on TCP port 2930 by default", func() {
 			ensureConnectivityToPort(2930)
 		})
