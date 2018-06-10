@@ -10,10 +10,10 @@ runweb:
 test: testunit testintegration teste2e
 
 teste2e:
-	ginkgo -focus end-to-end integration
+	ginkgo -r -randomizeAllSpecs -randomizeSuites -focus end-to-end integration
 
 testintegration:
-	ginkgo -r -skip end-to-end integration
+	ginkgo -r -randomizeAllSpecs -randomizeSuites -skip end-to-end integration
 
 testunit:
-	ginkgo -r -skipPackage examplesuite,integration
+	ginkgo -r -randomizeAllSpecs -randomizeSuites -skipPackage examplesuite,integration
