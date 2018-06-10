@@ -38,6 +38,8 @@ func TestIntegration(t *testing.T) {
 
 func startSnowflakeServer(env ...string) *gexec.Session {
 	command := exec.Command(pathToSnowflake)
+	command.Stdout = GinkgoWriter
+	command.Stderr = GinkgoWriter
 
 	if len(env) > 0 {
 		command.Env = env
@@ -51,6 +53,8 @@ func startSnowflakeServer(env ...string) *gexec.Session {
 
 func startSnowflakeWeb(env ...string) *gexec.Session {
 	command := exec.Command(pathToSnowflakeWeb)
+	command.Stdout = GinkgoWriter
+	command.Stderr = GinkgoWriter
 
 	if len(env) > 0 {
 		command.Env = env
