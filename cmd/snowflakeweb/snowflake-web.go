@@ -16,9 +16,9 @@ func main() {
 
 	serverPort := os.Getenv("SERVERPORT")
 	if serverPort == "" {
-		log.Fatal("SERVERPORT env var is not set")
+		serverPort = "2929"
 	}
-	log.Printf("connecting to port: %s", serverPort)
+	log.Printf("connecting to snowflake server on port: %s", serverPort)
 
 	conn, err := grpc.Dial(":"+serverPort, grpc.WithInsecure())
 	if err != nil {
@@ -29,7 +29,7 @@ func main() {
 
 	listenPort := os.Getenv("PORT")
 	if listenPort == "" {
-		listenPort = "8080"
+		listenPort = "2930"
 	}
 	log.Printf("listening on port: %s", listenPort)
 

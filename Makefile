@@ -10,5 +10,10 @@ runserver:
 runweb:
 	SERVERPORT=2929 go run cmd/snowflakeweb/snowflake-web.go
 
-test:
-	ginkgo -r -skipPackage examplesuite
+test: testunit testintegration
+
+testintegration:
+	ginkgo -r integration
+
+testunit:
+	ginkgo -r -skipPackage examplesuite,integration

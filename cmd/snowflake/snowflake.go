@@ -27,7 +27,7 @@ func main() {
 
 	listenPort := os.Getenv("PORT")
 	if listenPort == "" {
-		log.Fatal("PORT env var is not set")
+		listenPort = "2929"
 	}
 	log.Printf("listening on port: %s", listenPort)
 
