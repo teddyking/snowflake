@@ -2,7 +2,7 @@ version: 2
 jobs:
   test:
     docker:
-      - image: teddyking/go-ci:1.10.2
+      - image: teddyking/go-ci:1.10.3
     working_directory: /go/src/github.com/teddyking/snowflake
     steps:
       - checkout
