@@ -63,14 +63,4 @@ var _ = Describe("IndexHandler", func() {
 			Expect(responseRecorder.Result().StatusCode).To(Equal(http.StatusInternalServerError))
 		})
 	})
-
-	When("the index.html template cannot be parsed", func() {
-		BeforeEach(func() {
-			templatePath = "/some/invalid/template/path"
-		})
-
-		It("returns an HTTP 500", func() {
-			Expect(responseRecorder.Result().StatusCode).To(Equal(http.StatusInternalServerError))
-		})
-	})
 })

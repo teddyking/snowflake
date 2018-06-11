@@ -2,9 +2,9 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"html/template"
 	"net/http"
-	"path/filepath"
 
 	"github.com/teddyking/snowflake/api"
 	"google.golang.org/grpc"
@@ -16,14 +16,14 @@ type FlakerService interface {
 }
 
 type IndexHandler struct {
-	templateDirPath string
-	flakerService   FlakerService
+	templates     *template.Template
+	flakerService FlakerService
 }
 
 func NewIndexHandler(templateDirPath string, flakerService FlakerService) *IndexHandler {
 	return &IndexHandler{
-		templateDirPath: templateDirPath,
-		flakerService:   flakerService,
+		templates:     template.Must(template.ParseGlob(fmt.Sprintf("%s/*.html", templateDirPath))),
+		flakerService: flakerService,
 	}
 }
 
@@ -34,11 +34,5 @@ func (h *IndexHandler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t, err := template.ParseFiles(filepath.Join(h.templateDirPath, "index.html"))
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	t.Execute(w, flakerListRes.Flakes)
+	h.templates.ExecuteTemplate(w, "index.html", flakerListRes.Flakes)
 }
