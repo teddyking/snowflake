@@ -11,13 +11,20 @@ import (
 	"github.com/teddyking/snowflake/snowgauge"
 	"github.com/teddyking/snowflake/store"
 	"google.golang.org/grpc"
+
+	testdata "github.com/teddyking/snowflake/test/data"
 )
 
 func main() {
 	log.Println("--- snowflake server ---")
 
 	grpcServer := grpc.NewServer()
-	store := store.NewVolatileStore()
+
+	storeOpts := []store.Opt{}
+	if os.Getenv("SEEDSTORE") == "true" {
+		storeOpts = append(storeOpts, store.WithInitialReports(testdata.ReportsWithAFlake))
+	}
+	store := store.NewVolatileStore(storeOpts...)
 
 	reporterService := reporter.New(store)
 	flakerService := flaker.New(store, snowgauge.Flakes)

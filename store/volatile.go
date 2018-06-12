@@ -11,8 +11,22 @@ type VolatileStore struct {
 	mu      sync.Mutex
 }
 
-func NewVolatileStore() *VolatileStore {
-	return &VolatileStore{}
+type Opt func(*VolatileStore)
+
+func WithInitialReports(reports []*api.Report) func(volatileStore *VolatileStore) {
+	return func(volatileStore *VolatileStore) {
+		volatileStore.reports = reports
+	}
+}
+
+func NewVolatileStore(storeOpts ...Opt) *VolatileStore {
+	volatileStore := &VolatileStore{}
+
+	for _, storeOpt := range storeOpts {
+		storeOpt(volatileStore)
+	}
+
+	return volatileStore
 }
 
 func (v *VolatileStore) CreateReport(report *api.Report) error {
