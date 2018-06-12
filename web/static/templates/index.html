@@ -60,7 +60,7 @@
         <div class="two columns">Flake rate:</div><div class="ten columns">{{ .Failures }} failures / {{ .Successes }} passes</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Started:</div><div class="ten columns">{{ .StartedAt }}</div>
+        <div class="two columns">Started:</div><div class="ten columns">{{ humanizeTime .StartedAt }}</div>
       </div>
       <div class="flake-item row">
         <div class="two columns">Commit:</div><div class="ten columns"><a href="">{{ .Commit }}</a></div>
