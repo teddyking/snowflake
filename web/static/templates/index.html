@@ -54,7 +54,7 @@
         <div class="two columns">Location:</div><div class="ten columns">{{ .Location }}</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns failure">Cause:</div><div class="ten columns">{{ .Failure.Message }}</div>
+        <div class="two columns failure">Cause:</div><div class="ten columns">{{ nl2br .Failure.Message }}</div>
       </div>
       <div class="flake-item row">
         <div class="two columns">Flake rate:</div><div class="ten columns">{{ .Failures }} failures / {{ .Successes }} passes</div>

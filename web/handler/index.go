@@ -21,8 +21,13 @@ type IndexHandler struct {
 }
 
 func NewIndexHandler(templateDirPath string, flakerService FlakerService) *IndexHandler {
+	templatesGlob := fmt.Sprintf("%s/*.html", templateDirPath)
+	parsedTemplates := template.Must(
+		template.New("").Funcs(CustomTemplateFuncs).ParseGlob(templatesGlob),
+	)
+
 	return &IndexHandler{
-		templates:     template.Must(template.ParseGlob(fmt.Sprintf("%s/*.html", templateDirPath))),
+		templates:     parsedTemplates,
 		flakerService: flakerService,
 	}
 }
