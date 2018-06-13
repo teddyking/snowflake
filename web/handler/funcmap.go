@@ -10,6 +10,7 @@ var CustomTemplateFuncs = template.FuncMap{
 	"humanizeTime":           humanizeTime,
 	"nl2br":                  nl2br,
 	"codebaseFromImportPath": codebaseFromImportPath,
+	"trimCommit":             trimCommit,
 }
 
 func humanizeTime(i int64) string {
@@ -30,4 +31,14 @@ func codebaseFromImportPath(s string) string {
 	}
 
 	return strings.Join(segments[:maxSegments], "/")
+}
+
+func trimCommit(s string) string {
+	maxChars := 8
+
+	if len(s) < maxChars {
+		maxChars = len(s)
+	}
+
+	return s[:maxChars]
 }

@@ -15,6 +15,7 @@ var _ = Describe("CustomTemplateFuncs", func() {
 		nl2br                  func(string) template.HTML
 		humanizeTime           func(int64) string
 		codebaseFromImportPath func(string) string
+		trimCommit             func(string) string
 	)
 
 	BeforeSuite(func() {
@@ -27,6 +28,9 @@ var _ = Describe("CustomTemplateFuncs", func() {
 		Expect(ok).To(BeTrue())
 
 		codebaseFromImportPath, ok = CustomTemplateFuncs["codebaseFromImportPath"].(func(string) string)
+		Expect(ok).To(BeTrue())
+
+		trimCommit, ok = CustomTemplateFuncs["trimCommit"].(func(string) string)
 		Expect(ok).To(BeTrue())
 	})
 
@@ -62,5 +66,15 @@ var _ = Describe("CustomTemplateFuncs", func() {
 		Entry("suite in a subpackage", "github.com/teddyking/snowflake/example/examplesuite/", "github.com/teddyking/snowflake"),
 		Entry("bad import path", "github.com/teddyking", "github.com/teddyking"),
 		Entry("bad import path", "github.com", "github.com"),
+	)
+
+	DescribeTable("trimCommit",
+		func(input string, expectedOutput string) {
+			output := trimCommit(input)
+			Expect(expectedOutput).To(Equal(output))
+		},
+		Entry("long commit", "6e121a2c762a778907c94df7e774cb014531da8d", "6e121a2c"),
+		Entry("short commit", "6", "6"),
+		Entry("empty commit", "", ""),
 	)
 })

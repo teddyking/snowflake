@@ -60,7 +60,7 @@
         <div class="two columns">Started:</div><div class="ten columns">{{ humanizeTime .StartedAt }}</div>
       </div>
       <div class="flake-item row">
-        <div class="two columns">Commit:</div><div class="ten columns"><a href="">{{ .Commit }}</a></div>
+        <div class="two columns">Commit:</div><div class="ten columns">{{ trimCommit .Commit }}</div>
       </div>
     </div>
     {{ end }}
