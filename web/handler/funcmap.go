@@ -7,8 +7,9 @@ import (
 )
 
 var CustomTemplateFuncs = template.FuncMap{
-	"humanizeTime": humanizeTime,
-	"nl2br":        nl2br,
+	"humanizeTime":           humanizeTime,
+	"nl2br":                  nl2br,
+	"codebaseFromImportPath": codebaseFromImportPath,
 }
 
 func humanizeTime(i int64) string {
@@ -18,4 +19,15 @@ func humanizeTime(i int64) string {
 
 func nl2br(s string) template.HTML {
 	return template.HTML(strings.Replace(template.HTMLEscapeString(s), "\n", "<br />", -1))
+}
+
+func codebaseFromImportPath(s string) string {
+	segments := strings.Split(s, "/")
+	maxSegments := 3
+
+	if len(segments) < maxSegments {
+		maxSegments = len(segments)
+	}
+
+	return strings.Join(segments[:maxSegments], "/")
 }

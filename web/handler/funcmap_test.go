@@ -12,8 +12,9 @@ import (
 
 var _ = Describe("CustomTemplateFuncs", func() {
 	var (
-		nl2br        func(string) template.HTML
-		humanizeTime func(int64) string
+		nl2br                  func(string) template.HTML
+		humanizeTime           func(int64) string
+		codebaseFromImportPath func(string) string
 	)
 
 	BeforeSuite(func() {
@@ -23,6 +24,9 @@ var _ = Describe("CustomTemplateFuncs", func() {
 		Expect(ok).To(BeTrue())
 
 		humanizeTime, ok = CustomTemplateFuncs["humanizeTime"].(func(int64) string)
+		Expect(ok).To(BeTrue())
+
+		codebaseFromImportPath, ok = CustomTemplateFuncs["codebaseFromImportPath"].(func(string) string)
 		Expect(ok).To(BeTrue())
 	})
 
@@ -45,5 +49,18 @@ var _ = Describe("CustomTemplateFuncs", func() {
 		},
 		Entry("time", int64(1528789164), time.Unix(1528789164, 0).Format(time.RFC1123)),
 		Entry("time", int64(3376728000), time.Unix(3376728000, 0).Format(time.RFC1123)),
+	)
+
+	DescribeTable("codebaseFromImportPath",
+		func(input string, expectedOutput string) {
+			output := codebaseFromImportPath(input)
+			Expect(expectedOutput).To(Equal(output))
+		},
+		Entry("suite in toplevel package", "github.com/teddyking/snowflake", "github.com/teddyking/snowflake"),
+		Entry("suite in toplevel package with ending /", "github.com/teddyking/snowflake/", "github.com/teddyking/snowflake"),
+		Entry("suite in a subpackage", "github.com/teddyking/snowflake/example/examplesuite", "github.com/teddyking/snowflake"),
+		Entry("suite in a subpackage", "github.com/teddyking/snowflake/example/examplesuite/", "github.com/teddyking/snowflake"),
+		Entry("bad import path", "github.com/teddyking", "github.com/teddyking"),
+		Entry("bad import path", "github.com", "github.com"),
 	)
 })
