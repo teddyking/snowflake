@@ -3,6 +3,8 @@ package integration_test
 import (
 	. "github.com/onsi/ginkgo"
 
+	"fmt"
+
 	"github.com/onsi/gomega/gexec"
 )
 
@@ -30,12 +32,15 @@ var _ = Describe("snowflake Integration", func() {
 		})
 
 		When("the PORT env var is set", func() {
+			var port int
+
 			BeforeEach(func() {
-				env = []string{"PORT=2930"}
+				port = 5000 + GinkgoParallelNode()
+				env = []string{fmt.Sprintf("PORT=%d", port)}
 			})
 
 			It("listens on the port specified by the PORT env var", func() {
-				ensureConnectivityToPort(2930)
+				ensureConnectivityToPort(port)
 			})
 		})
 	})

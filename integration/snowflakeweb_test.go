@@ -34,37 +34,35 @@ var _ = Describe("snowflakeweb Integration", func() {
 		})
 
 		When("the PORT env var is set", func() {
+			var port int
+
 			BeforeEach(func() {
-				env = []string{"PORT=8080"}
+				port = 5000 + GinkgoParallelNode()
+				env = []string{fmt.Sprintf("PORT=%d", port)}
 			})
 
 			It("listens on the port specified by the PORT env var", func() {
-				ensureConnectivityToPort(8080)
+				ensureConnectivityToPort(port)
 			})
 		})
 	})
 
 	Describe("server port", func() {
-		// super lame tests ...
+		var port int
 
-		It("connects to the server on TCP port 2929 by default", func() {
-			Eventually(webSession.Err).Should(gbytes.Say("connecting to snowflake server on port: 2929"))
+		BeforeEach(func() {
+			port = 5000 + GinkgoParallelNode()
+			env = []string{fmt.Sprintf("SERVERPORT=%d", port)}
 		})
 
-		When("the SERVERPORT env var is set", func() {
-			BeforeEach(func() {
-				env = []string{"SERVERPORT=2000"}
-			})
-
-			It("connects on the port specified by the SERVERPORT env var", func() {
-				Eventually(webSession.Err).Should(gbytes.Say("connecting to snowflake server on port: 2000"))
-			})
+		// super lame test ...
+		It("connects on the port specified by the SERVERPORT env var", func() {
+			Eventually(webSession.Err).Should(gbytes.Say(fmt.Sprintf("connecting to snowflake server on port: %d", port)))
 		})
 	})
 
 	Describe("static dir", func() {
 		// super lame tests ...
-
 		It("serves static assets from the path sepecified by STATICDIR", func() {
 			Eventually(webSession.Err).Should(gbytes.Say("serving static assets from: ../web/static"))
 		})
