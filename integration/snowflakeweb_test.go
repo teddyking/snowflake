@@ -57,7 +57,7 @@ var _ = Describe("snowflakeweb Integration", func() {
 
 		// super lame test ...
 		It("connects on the port specified by the SERVERPORT env var", func() {
-			Eventually(webSession.Err).Should(gbytes.Say(fmt.Sprintf("connecting to snowflake server on port: %d", port)))
+			Eventually(webSession.Err).Should(gbytes.Say(fmt.Sprintf("server address set to: localhost:%d", port)))
 		})
 	})
 
