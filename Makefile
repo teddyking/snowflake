@@ -1,10 +1,18 @@
 .DEFAULT_GOAL := test
 
+generatecert:
+	certstrap --depot-path "test/certs" init --passphrase "" --common-name "snowflake ca"
+	certstrap --depot-path "test/certs" request-cert --passphrase "" --domain "localhost"
+	certstrap --depot-path "test/certs" sign --CA "snowflake ca" "localhost"
+
 proto:
 	protoc --proto_path=api api/*.proto --go_out=plugins=grpc:api
 
 runserver:
 	PORT=2929 go run cmd/snowflake/snowflake.go
+
+runsecureserver:
+	PORT=2929 TLSKEYPATH=test/certs/localhost.key TLSCRTPATH=test/certs/localhost.crt go run cmd/snowflake/snowflake.go
 
 runweb:
 	SERVERPORT=2929 go run cmd/snowflakeweb/snowflakeweb.go

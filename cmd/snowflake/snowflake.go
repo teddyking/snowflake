@@ -50,6 +50,8 @@ func configureServerOptions() []grpc.ServerOption {
 		}
 
 		serverOpts = append(serverOpts, grpc.Creds(creds))
+		log.Printf("tls key path set to: %s", tlsKeyPath)
+		log.Printf("tls crt path set to: %s", tlsCrtPath)
 	}
 
 	return serverOpts
