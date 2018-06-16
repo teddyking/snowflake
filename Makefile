@@ -1,3 +1,5 @@
+.DEFAULT_GOAL := test
+
 proto:
 	protoc --proto_path=api api/*.proto --go_out=plugins=grpc:api
 
