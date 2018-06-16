@@ -51,6 +51,7 @@ func configureDialOptions() []grpc.DialOption {
 		}
 
 		dialOpts = []grpc.DialOption{grpc.WithTransportCredentials(creds)}
+		log.Printf("tls crt path set to: %s", tlsCrtPath)
 	}
 
 	return dialOpts
