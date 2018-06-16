@@ -74,3 +74,10 @@ func ensureConnectivityToPort(port int) {
 		return err
 	}).Should(Succeed())
 }
+
+func skipIfNotOnPath(executable string) {
+	_, err := exec.LookPath("certstrap")
+	if err != nil {
+		Skip(fmt.Sprintf("this test requires the '%s' executable to be found on $PATH", executable))
+	}
+}
