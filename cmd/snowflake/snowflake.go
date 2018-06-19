@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net"
 	"os"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
 	"github.com/teddyking/snowflake/services/flaker"
