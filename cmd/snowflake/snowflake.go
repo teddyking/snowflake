@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/middleware"
 	"github.com/teddyking/snowflake/services/flaker"
 	"github.com/teddyking/snowflake/services/reporter"
 	"github.com/teddyking/snowflake/snowgauge"
@@ -17,6 +18,11 @@ import (
 
 	testdata "github.com/teddyking/snowflake/test/data"
 )
+
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+}
 
 func main() {
 	log.Println("--- snowflake server ---")
@@ -54,6 +60,8 @@ func configureServerOptions() []grpc.ServerOption {
 		log.Printf("tls key path set to: %s", tlsKeyPath)
 		log.Printf("tls crt path set to: %s", tlsCrtPath)
 	}
+
+	serverOpts = append(serverOpts, grpc.UnaryInterceptor(middleware.WithServerLogging))
 
 	return serverOpts
 }
