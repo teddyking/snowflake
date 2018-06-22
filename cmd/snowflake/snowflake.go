@@ -18,8 +18,13 @@ import (
 	testdata "github.com/teddyking/snowflake/test/data"
 )
 
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+}
+
 func main() {
-	log.Println("--- snowflake server ---")
+	log.Printf("starting snowflake")
 
 	grpcServer := grpc.NewServer(configureServerOptions()...)
 	store := store.NewVolatileStore(configureStoreOptions()...)
@@ -51,8 +56,7 @@ func configureServerOptions() []grpc.ServerOption {
 		}
 
 		serverOpts = append(serverOpts, grpc.Creds(creds))
-		log.Printf("tls key path set to: %s", tlsKeyPath)
-		log.Printf("tls crt path set to: %s", tlsCrtPath)
+		log.Printf("tls configured")
 	}
 
 	return serverOpts
@@ -74,8 +78,5 @@ func configureListenAddress() string {
 		listenPort = "2929"
 	}
 
-	listenAddress := fmt.Sprintf("localhost:%s", listenPort)
-	log.Printf("listen address set to: %s", listenAddress)
-
-	return listenAddress
+	return fmt.Sprintf("localhost:%s", listenPort)
 }

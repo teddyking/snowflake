@@ -6,22 +6,22 @@ import (
 
 	"fmt"
 
-	"github.com/onsi/gomega/gbytes"
 	"github.com/onsi/gomega/gexec"
+	"github.com/shirou/gopsutil/net"
 )
 
 var _ = Describe("snowflakeweb Integration", func() {
 	var (
-		env        []string
+		webEnv     []string
 		webSession *gexec.Session
 	)
 
 	BeforeEach(func() {
-		env = []string{}
+		webEnv = []string{}
 	})
 
 	JustBeforeEach(func() {
-		webSession = startSnowflakeWeb(env...)
+		webSession = startSnowflakeWeb(webEnv...)
 	})
 
 	AfterEach(func() {
@@ -34,47 +34,62 @@ var _ = Describe("snowflakeweb Integration", func() {
 		})
 
 		When("the PORT env var is set", func() {
-			var port int
+			var webPort int
 
 			BeforeEach(func() {
-				port = 5000 + GinkgoParallelNode()
-				env = []string{fmt.Sprintf("PORT=%d", port)}
+				webPort = 6000 + GinkgoParallelNode()
+				webEnv = []string{fmt.Sprintf("PORT=%d", webPort)}
 			})
 
 			It("listens on the port specified by the PORT env var", func() {
-				ensureConnectivityToPort(port)
+				ensureConnectivityToPort(webPort)
 			})
 		})
 	})
 
 	Describe("server port", func() {
-		var port int
+		var (
+			serverPort    int
+			webPort       int
+			serverEnv     []string
+			serverSession *gexec.Session
+		)
 
 		BeforeEach(func() {
-			port = 5000 + GinkgoParallelNode()
-			env = []string{fmt.Sprintf("SERVERPORT=%d", port)}
+			serverPort = 5000 + GinkgoParallelNode()
+			serverEnv = []string{fmt.Sprintf("PORT=%d", serverPort)}
+
+			webPort = 6000 + GinkgoParallelNode()
+			webEnv = []string{fmt.Sprintf("SERVERPORT=%d", serverPort), fmt.Sprintf("PORT=%d", webPort)}
 		})
 
-		// super lame test ...
-		It("connects on the port specified by the SERVERPORT env var", func() {
-			Eventually(webSession.Err).Should(gbytes.Say(fmt.Sprintf("server address set to: localhost:%d", port)))
-		})
-	})
-
-	Describe("static dir", func() {
-		// super lame tests ...
-		It("serves static assets from the path sepecified by STATICDIR", func() {
-			Eventually(webSession.Err).Should(gbytes.Say("serving static assets from: ../web/static"))
+		JustBeforeEach(func() {
+			serverSession = startSnowflakeServer(serverEnv...)
+			ensureConnectivityToPort(serverPort)
+			ensureConnectivityToPort(webPort)
 		})
 
-		When("the STATICDIR env var is set", func() {
-			BeforeEach(func() {
-				env = []string{fmt.Sprintf("STATICDIR=staticdir")}
-			})
+		AfterEach(func() {
+			serverSession.Kill()
+		})
 
-			It("serves static assets from the path sepecified by STATICDIR", func() {
-				Eventually(webSession.Err).Should(gbytes.Say("serving static assets from: staticdir"))
-			})
+		It("connects to the server on the port specified by the SERVERPORT env var", func() {
+			Expect(connectionEstablishedTo(net.Addr{IP: "127.0.0.1", Port: uint32(serverPort)})).To(BeTrue())
 		})
 	})
 })
+
+func connectionEstablishedTo(remoteAddress net.Addr) bool {
+	conns, err := net.Connections("tcp4")
+	Expect(err).NotTo(HaveOccurred())
+
+	for _, conn := range conns {
+		if conn.Status == "ESTABLISHED" {
+			if conn.Raddr == remoteAddress {
+				return true
+			}
+		}
+	}
+
+	return false
+}

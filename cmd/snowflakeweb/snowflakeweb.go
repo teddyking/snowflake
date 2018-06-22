@@ -14,8 +14,13 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+}
+
 func main() {
-	log.Println("--- snowflake web ---")
+	log.Printf("starting snowflakeweb")
 
 	conn, err := grpc.Dial(configureServerAddress(), configureDialOptions()...)
 	if err != nil {
@@ -36,7 +41,6 @@ func configureServerAddress() string {
 	}
 
 	serverAddress := fmt.Sprintf("localhost:%s", serverPort)
-	log.Printf("server address set to: %s", serverAddress)
 
 	return serverAddress
 }
@@ -52,7 +56,7 @@ func configureDialOptions() []grpc.DialOption {
 		}
 
 		dialOpts = []grpc.DialOption{grpc.WithTransportCredentials(creds)}
-		log.Printf("tls crt path set to: %s", tlsCrtPath)
+		log.Printf("tls configured")
 	}
 
 	return dialOpts
@@ -65,7 +69,6 @@ func configureListenAddress() string {
 	}
 
 	listenAddress := fmt.Sprintf("localhost:%s", listenPort)
-	log.Printf("listen address set to: %s", listenAddress)
 
 	return listenAddress
 }
@@ -75,7 +78,6 @@ func configureStaticDirPath() string {
 	if staticDirPath == "" {
 		staticDirPath = filepath.Join("web", "static")
 	}
-	log.Printf("serving static assets from: %s", staticDirPath)
 
 	return staticDirPath
 }
