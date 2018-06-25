@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/middleware"
 	"github.com/teddyking/snowflake/services/flaker"
 	"github.com/teddyking/snowflake/services/reporter"
 	"github.com/teddyking/snowflake/snowgauge"
@@ -18,9 +19,16 @@ import (
 	testdata "github.com/teddyking/snowflake/test/data"
 )
 
-func init() {
+func initLogger() {
 	log.SetFormatter(&log.JSONFormatter{})
 	log.SetOutput(os.Stdout)
+
+	if os.Getenv("DEBUG") == "true" {
+		log.SetLevel(log.Debug)
+	}
+}
+
+func init() {
 }
 
 func main() {
@@ -58,6 +66,8 @@ func configureServerOptions() []grpc.ServerOption {
 		serverOpts = append(serverOpts, grpc.Creds(creds))
 		log.Printf("tls configured")
 	}
+
+	serverOpts = append(serverOpts, grpc.UnaryInterceptor(middleware.WithServerLogging))
 
 	return serverOpts
 }

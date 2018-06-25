@@ -9,6 +9,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/middleware"
 	"github.com/teddyking/snowflake/web/handler"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
@@ -58,6 +59,8 @@ func configureDialOptions() []grpc.DialOption {
 		dialOpts = []grpc.DialOption{grpc.WithTransportCredentials(creds)}
 		log.Printf("tls configured")
 	}
+
+	dialOpts = append(dialOpts, grpc.WithUnaryInterceptor(middleware.WithClientLogging))
 
 	return dialOpts
 }
