@@ -8,6 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/middleware"
 	"github.com/teddyking/snowflake/services/flaker"
 	"github.com/teddyking/snowflake/services/reporter"
 	"github.com/teddyking/snowflake/snowgauge"
@@ -19,8 +20,7 @@ import (
 )
 
 func init() {
-	log.SetFormatter(&log.JSONFormatter{})
-	log.SetOutput(os.Stdout)
+	configureLogging()
 }
 
 func main() {
@@ -44,6 +44,15 @@ func main() {
 	log.Fatal(grpcServer.Serve(l))
 }
 
+func configureLogging() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+
+	if os.Getenv("DEBUG") == "true" {
+		log.SetLevel(log.DebugLevel)
+	}
+}
+
 func configureServerOptions() []grpc.ServerOption {
 	serverOpts := []grpc.ServerOption{}
 
@@ -56,8 +65,10 @@ func configureServerOptions() []grpc.ServerOption {
 		}
 
 		serverOpts = append(serverOpts, grpc.Creds(creds))
-		log.Printf("tls configured")
+		log.WithFields(log.Fields{"tlsKeyPath": tlsKeyPath, "tlsCrtPath": tlsCrtPath}).Debug("configured tls")
 	}
+
+	serverOpts = append(serverOpts, grpc.UnaryInterceptor(middleware.WithServerLogging))
 
 	return serverOpts
 }
@@ -67,6 +78,7 @@ func configureStoreOptions() []store.Opt {
 
 	if os.Getenv("SEEDSTORE") == "true" {
 		storeOpts = append(storeOpts, store.WithInitialReports(testdata.ReportsWithAFlake))
+		log.Debug("store seeded")
 	}
 
 	return storeOpts
@@ -78,5 +90,8 @@ func configureListenAddress() string {
 		listenPort = "2929"
 	}
 
-	return fmt.Sprintf("localhost:%s", listenPort)
+	listenAddress := fmt.Sprintf("localhost:%s", listenPort)
+	log.WithFields(log.Fields{"listenAddress": listenAddress}).Debug("listenAddress configured")
+
+	return listenAddress
 }
