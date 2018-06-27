@@ -9,14 +9,14 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/teddyking/snowflake/api"
+	"github.com/teddyking/snowflake/middleware"
 	"github.com/teddyking/snowflake/web/handler"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
 
 func init() {
-	log.SetFormatter(&log.JSONFormatter{})
-	log.SetOutput(os.Stdout)
+	configureLogging()
 }
 
 func main() {
@@ -34,6 +34,15 @@ func main() {
 	log.Fatal(http.ListenAndServe(configureListenAddress(), handler))
 }
 
+func configureLogging() {
+	log.SetFormatter(&log.JSONFormatter{})
+	log.SetOutput(os.Stdout)
+
+	if os.Getenv("DEBUG") == "true" {
+		log.SetLevel(log.DebugLevel)
+	}
+}
+
 func configureServerAddress() string {
 	serverPort := os.Getenv("SERVERPORT")
 	if serverPort == "" {
@@ -41,6 +50,7 @@ func configureServerAddress() string {
 	}
 
 	serverAddress := fmt.Sprintf("localhost:%s", serverPort)
+	log.WithFields(log.Fields{"serverAddress": serverAddress}).Debug("configured serverAddress")
 
 	return serverAddress
 }
@@ -56,8 +66,10 @@ func configureDialOptions() []grpc.DialOption {
 		}
 
 		dialOpts = []grpc.DialOption{grpc.WithTransportCredentials(creds)}
-		log.Printf("tls configured")
+		log.WithFields(log.Fields{"tlsCrtPath": tlsCrtPath}).Debug("configured tls")
 	}
+
+	dialOpts = append(dialOpts, grpc.WithUnaryInterceptor(middleware.WithClientLogging))
 
 	return dialOpts
 }
@@ -69,6 +81,7 @@ func configureListenAddress() string {
 	}
 
 	listenAddress := fmt.Sprintf("localhost:%s", listenPort)
+	log.WithFields(log.Fields{"listenAddress": listenAddress}).Debug("listenAddress configured")
 
 	return listenAddress
 }
@@ -78,6 +91,8 @@ func configureStaticDirPath() string {
 	if staticDirPath == "" {
 		staticDirPath = filepath.Join("web", "static")
 	}
+
+	log.WithFields(log.Fields{"staticDirPath": staticDirPath}).Debug("staticDirPath configured")
 
 	return staticDirPath
 }
