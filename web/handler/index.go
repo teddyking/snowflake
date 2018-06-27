@@ -6,6 +6,8 @@ import (
 	"html/template"
 	"net/http"
 
+	log "github.com/sirupsen/logrus"
+
 	"github.com/teddyking/snowflake/api"
 	"google.golang.org/grpc"
 )
@@ -35,6 +37,7 @@ func NewIndexHandler(templateDirPath string, flakerService FlakerService) *Index
 func (h *IndexHandler) HandleIndex(w http.ResponseWriter, r *http.Request) {
 	flakerListRes, err := h.flakerService.List(context.Background(), &api.FlakerListReq{})
 	if err != nil {
+		log.Error(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
