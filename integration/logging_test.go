@@ -45,7 +45,7 @@ var _ = Describe("Logging", func() {
 		Expect(webSession.Out).To(gbytes.Say(`"level":"info"`))
 	})
 
-	When("the DEBUG serverEnv var is set to true", func() {
+	When("the DEBUG env var is set to true", func() {
 		BeforeEach(func() {
 			serverEnv = append(serverEnv, "DEBUG=true")
 			webEnv = append(webEnv, "DEBUG=true")

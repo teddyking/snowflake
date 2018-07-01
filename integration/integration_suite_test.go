@@ -68,6 +68,13 @@ func startSnowflakeWeb(env ...string) *gexec.Session {
 	return session
 }
 
+func ensureConnectivityToAddress(address string) {
+	Eventually(func() error {
+		_, err := net.Dial("tcp", address)
+		return err
+	}).Should(Succeed())
+}
+
 func ensureConnectivityToPort(port int) {
 	Eventually(func() error {
 		_, err := net.Dial("tcp", fmt.Sprintf(":%d", port))

@@ -44,12 +44,16 @@ func configureLogging() {
 }
 
 func configureServerAddress() string {
+	serverHost := os.Getenv("SERVERHOST")
+	if serverHost == "" {
+		serverHost = "0.0.0.0"
+	}
 	serverPort := os.Getenv("SERVERPORT")
 	if serverPort == "" {
 		serverPort = "2929"
 	}
 
-	serverAddress := fmt.Sprintf("0.0.0.0:%s", serverPort)
+	serverAddress := fmt.Sprintf("%s:%s", serverHost, serverPort)
 	log.WithFields(log.Fields{"serverAddress": serverAddress}).Debug("configured serverAddress")
 
 	return serverAddress

@@ -47,8 +47,9 @@ var _ = Describe("snowflakeweb Integration", func() {
 		})
 	})
 
-	Describe("server port", func() {
+	Describe("server address", func() {
 		var (
+			serverHost    string
 			serverPort    int
 			webPort       int
 			serverEnv     []string
@@ -56,16 +57,21 @@ var _ = Describe("snowflakeweb Integration", func() {
 		)
 
 		BeforeEach(func() {
+			serverHost = "127.0.0.1"
 			serverPort = 5000 + GinkgoParallelNode()
 			serverEnv = []string{fmt.Sprintf("PORT=%d", serverPort)}
 
 			webPort = 6000 + GinkgoParallelNode()
-			webEnv = []string{fmt.Sprintf("SERVERPORT=%d", serverPort), fmt.Sprintf("PORT=%d", webPort)}
+			webEnv = []string{
+				fmt.Sprintf("SERVERHOST=%s", serverHost),
+				fmt.Sprintf("SERVERPORT=%d", serverPort),
+				fmt.Sprintf("PORT=%d", webPort),
+			}
 		})
 
 		JustBeforeEach(func() {
 			serverSession = startSnowflakeServer(serverEnv...)
-			ensureConnectivityToPort(serverPort)
+			ensureConnectivityToAddress(fmt.Sprintf("%s:%d", serverHost, serverPort))
 			ensureConnectivityToPort(webPort)
 		})
 
@@ -73,7 +79,7 @@ var _ = Describe("snowflakeweb Integration", func() {
 			serverSession.Kill()
 		})
 
-		It("connects to the server on the port specified by the SERVERPORT env var", func() {
+		It("connects to the server on the address specified by the SERVER{HOST,PORT} env vars", func() {
 			Expect(connectionEstablishedTo(net.Addr{IP: "127.0.0.1", Port: uint32(serverPort)})).To(BeTrue())
 		})
 	})
