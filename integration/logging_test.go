@@ -57,7 +57,7 @@ var _ = Describe("Logging", func() {
 		})
 
 		It("logs server requests", func() {
-			http.Get(fmt.Sprintf("http://localhost:%d", webPort))
+			http.Get(fmt.Sprintf("http://0.0.0.0:%d", webPort))
 
 			Expect(serverSession.Out).To(gbytes.Say(`"level":"debug","method":"/api.Flaker/List"`))
 			Expect(webSession.Out).To(gbytes.Say(`"level":"debug","method":"/api.Flaker/List"`))

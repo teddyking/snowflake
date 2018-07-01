@@ -77,7 +77,7 @@ var _ = Describe("Security", func() {
 				creds, err := credentials.NewClientTLSFromFile(tlsCrtPath, "")
 				Expect(err).NotTo(HaveOccurred())
 
-				hostAddress := fmt.Sprintf("localhost:%d", serverPort)
+				hostAddress := fmt.Sprintf("0.0.0.0:%d", serverPort)
 				conn, err := grpc.Dial(hostAddress, grpc.WithTransportCredentials(creds))
 				Expect(err).NotTo(HaveOccurred())
 
@@ -87,7 +87,7 @@ var _ = Describe("Security", func() {
 				Expect(err).NotTo(HaveOccurred())
 
 				// ensure web is configured for TLS by checking for an HTTP 200
-				webAddress := fmt.Sprintf("localhost:%d", webPort)
+				webAddress := fmt.Sprintf("0.0.0.0:%d", webPort)
 				res, err := http.Get(fmt.Sprintf("http://%s", webAddress))
 				Expect(err).NotTo(HaveOccurred())
 				Expect(res.StatusCode).To(Equal(http.StatusOK))
@@ -99,8 +99,8 @@ var _ = Describe("Security", func() {
 func generateKeyAndCrt(outDir string) (string, string, error) {
 	certstrapCommands := [][]string{
 		[]string{"init", "--passphrase", "", "--common-name", "snowflake test ca"},
-		[]string{"request-cert", "--passphrase", "", "--domain", "localhost"},
-		[]string{"sign", "--CA", "snowflake test ca", "localhost"},
+		[]string{"request-cert", "--passphrase", "", "--ip", "0.0.0.0"},
+		[]string{"sign", "--CA", "snowflake test ca", "0.0.0.0"},
 	}
 
 	for _, certstrapCommand := range certstrapCommands {
@@ -109,8 +109,8 @@ func generateKeyAndCrt(outDir string) (string, string, error) {
 		}
 	}
 
-	tlsKeyPath := filepath.Join(outDir, "localhost.key")
-	tlsCrtPath := filepath.Join(outDir, "localhost.crt")
+	tlsKeyPath := filepath.Join(outDir, "0.0.0.0.key")
+	tlsCrtPath := filepath.Join(outDir, "0.0.0.0.crt")
 
 	return tlsKeyPath, tlsCrtPath, nil
 }

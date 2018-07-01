@@ -49,7 +49,7 @@ func configureServerAddress() string {
 		serverPort = "2929"
 	}
 
-	serverAddress := fmt.Sprintf("localhost:%s", serverPort)
+	serverAddress := fmt.Sprintf("0.0.0.0:%s", serverPort)
 	log.WithFields(log.Fields{"serverAddress": serverAddress}).Debug("configured serverAddress")
 
 	return serverAddress
@@ -80,7 +80,7 @@ func configureListenAddress() string {
 		listenPort = "2930"
 	}
 
-	listenAddress := fmt.Sprintf("localhost:%s", listenPort)
+	listenAddress := fmt.Sprintf("0.0.0.0:%s", listenPort)
 	log.WithFields(log.Fields{"listenAddress": listenAddress}).Debug("listenAddress configured")
 
 	return listenAddress
