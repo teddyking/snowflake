@@ -1,0 +1,30 @@
+version: '3'
+services:
+  snowflakeserver:
+    command: snowflake
+    environment:
+      - DEBUG=true
+      - TLSKEYPATH=/var/run/snowflake/certs/snowflakeserver.key
+      - TLSCRTPATH=/var/run/snowflake/certs/snowflakeserver.crt
+    expose:
+      - "2929"
+    image: teddyking/snowflake:latest
+    ports:
+      - "2929:2929"
+    volumes:
+      - "../certs:/var/run/snowflake/certs"
+
+  snowflakeweb:
+    command: snowflakeweb
+    depends_on:
+      - snowflakeserver
+    environment:
+      - DEBUG=true
+      - SERVERHOST=snowflakeserver
+      - TLSKEYPATH=/var/run/snowflake/certs/snowflakeserver.key
+      - TLSCRTPATH=/var/run/snowflake/certs/snowflakeserver.crt
+    image: teddyking/snowflake:latest
+    ports:
+     - "2930:2930"
+    volumes:
+      - "../certs:/var/run/snowflake/certs"

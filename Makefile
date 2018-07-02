@@ -2,8 +2,8 @@
 
 generatecert:
 	certstrap --depot-path "test/certs" init --passphrase "" --common-name "snowflake ca"
-	certstrap --depot-path "test/certs" request-cert --passphrase "" --domain "localhost"
-	certstrap --depot-path "test/certs" sign --CA "snowflake ca" "localhost"
+	certstrap --depot-path "test/certs" request-cert --passphrase "" --domain "snowflakeserver"
+	certstrap --depot-path "test/certs" sign --CA "snowflake ca" "snowflakeserver"
 
 proto:
 	protoc --proto_path=api api/*.proto --go_out=plugins=grpc:api
